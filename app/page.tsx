@@ -85,3 +85,19 @@ export default function Home() {
     </main>
   );
 }
+{/* Banner Acelerador Express */}
+<div className="bg-gradient-to-r from-rose-950/80 to-slate-900 border border-rose-800/80 p-5 rounded-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow-xl">
+  <div className="space-y-1">
+    <span className="text-[10px] font-bold text-rose-400 uppercase tracking-wider bg-rose-950 px-2.5 py-0.5 rounded-full border border-rose-800">
+      ⚡ Formación de Alto Impacto
+    </span>
+    <h3 className="text-lg font-extrabold text-white">Programa de Inmersión Condensada (6 Módulos Express)</h3>
+    <p className="text-xs text-slate-300">Diseñado para líderes que buscan velocidad, carácter y aplicación inmediata.</p>
+  </div>
+  <Link
+    href="/universidad/inmersion"
+    className="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-lg whitespace-nowrap"
+  >
+    Ingresar al Acelerador ➔
+  </Link>
+</div>
