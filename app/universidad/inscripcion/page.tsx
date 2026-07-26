@@ -127,3 +127,23 @@ export default function InscripcionPage() {
     </main>
   );
 }
+
+const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.nombre || !formData.email) return;
+
+    try {
+      const res = await fetch('/api/inscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData)
+      });
+
+      if (res.ok) {
+        setCompletado(true);
+      }
+    } catch (err) {
+      console.error('Error al inscribir:', err);
+    }
+  };
+  
