@@ -302,3 +302,21 @@ export default function RecursosAvanzadosPage() {
 >
   <span>🔬</span> Recursos Avanzados (Griego, Apologética & Homilética)
 </Link>
+<Link
+  href="/universidad/especializaciones"
+  className="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+>
+  <span>🎯</span> Especializaciones Ministeriales
+</Link>
+<Link
+  href="/universidad/liderazgo-cristocentrico"
+  className="bg-slate-800 hover:bg-slate-700 text-cyan-400 border border-cyan-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+>
+  <span>👑</span> Liderazgo Cristocéntrico & Salud Ministerial
+</Link>
+<Link
+  href="/universidad/certificados"
+  className="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+>
+  <span>🏅</span> Certificados Digitales
+</Link>
