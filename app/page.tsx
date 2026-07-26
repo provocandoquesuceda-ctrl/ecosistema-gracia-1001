@@ -335,3 +335,18 @@ export default function RecursosAvanzadosPage() {
     <span>👥</span> Centro de Mentoría Dual
   </Link>
 </div>
+<div className="flex flex-wrap gap-2">
+  <Link
+    href="/universidad/evaluacion"
+    className="bg-slate-800 hover:bg-slate-700 text-teal-400 border border-teal-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>📝</span> Diagnóstico Teológico
+  </Link>
+
+  <Link
+    href="/universidad/foro"
+    className="bg-slate-800 hover:bg-slate-700 text-blue-400 border border-blue-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>💬</span> Ágora & Foro
+  </Link>
+</div>
