@@ -1,0 +1,99 @@
+'use client';
+
+import { useState } from 'react';
+
+export default function TutorExegesisPage() {
+  const [mensajes, setMensajes] = useState([
+    {
+      emisor: 'bot',
+      texto: '¡Gracia y paz! Soy tu Tutor Exegético de la Universidad. ¿En qué pasaje bíblico o concepto del Nuevo Pacto deseas profundizar hoy?'
+    }
+  ]);
+  const [input, setInput] = useState('');
+  const [cargando, setCargando] = useState(false);
+
+  const enviarConsulta = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!input.trim()) return;
+
+    const userMsg = input;
+    setMensajes((prev) => [...prev, { emisor: 'user', texto: userMsg }]);
+    setInput('');
+    setCargando(true);
+
+    // Simulación de respuesta basada en la teología de la gracia y la obra terminada
+    setTimeout(() => {
+      let respuestaBot = 'Recuerda analizar siempre el pasaje a la luz de la obra terminada de Cristo en la cruz. En el Nuevo Pacto, la ley quedó satisfecha por Jesús y nosotros caminamos en favor e identidad de hijos.';
+
+      if (userMsg.toLowerCase().includes('romanos') || userMsg.toLowerCase().includes('justicia')) {
+        respuestaBot = 'En el libro de Romanos, el apóstol Pablo enfatiza que la justicia de Dios no es una exigencia moral inalcanzable, sino un regalo (dorea) otorgado por la fe en Jesucristo a todo aquel que cree (Romanos 3:21-22).';
+      } else if (userMsg.toLowerCase().includes('ley') || userMsg.toLowerCase().includes('gracia')) {
+        respuestaBot = 'La Ley fue dada por medio de Moisés para cerrar toda boca y mostrar la necesidad del Salvador; la gracia y la verdad vinieron por medio de Jesucristo (Juan 1:17). Bajo la gracia, obedecemos por amor a nuestra nueva naturaleza, no por temor al castigo.';
+      }
+
+      setMensajes((prev) => [...prev, { emisor: 'bot', texto: respuestaBot }]);
+      setCargando(false);
+    }, 1000);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-cyan-400 bg-cyan-950/80 px-3 py-1 rounded-full border border-cyan-800">
+          🤖 Asistencia Teológica Personalizada
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Tutor de Exégesis Cristocéntrica</h1>
+        <p className="text-slate-400 text-sm">
+          Consulta pasajes, analiza términos en griego/hebreo y resuelve dudas interpretativas desde la óptica de la obra terminada.
+        </p>
+      </header>
+
+      {/* Caja de Chat */}
+      <div className="bg-slate-800 border border-slate-700 rounded-3xl p-6 flex flex-col h-[480px] shadow-2xl">
+        <div className="flex-1 overflow-y-auto space-y-4 pr-2">
+          {mensajes.map((m, idx) => (
+            <div
+              key={idx}
+              className={`flex ${m.emisor === 'user' ? 'justify-end' : 'justify-start'}`}
+            >
+              <div
+                className={`max-w-[80%] p-4 rounded-2xl text-xs leading-relaxed ${
+                  m.emisor === 'user'
+                    ? 'bg-cyan-600 text-white rounded-br-none'
+                    : 'bg-slate-900 text-slate-200 border border-slate-700 rounded-bl-none'
+                }`}
+              >
+                {m.texto}
+              </div>
+            </div>
+          ))}
+          {cargando && (
+            <div className="flex justify-start">
+              <div className="bg-slate-900 text-cyan-400 border border-slate-700 p-3 rounded-2xl text-xs font-mono animate-pulse">
+                🔍 Analizando contexto exegético...
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Input */}
+        <form onSubmit={enviarConsulta} className="mt-4 flex gap-2 pt-3 border-t border-slate-700/80">
+          <input
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Ej: ¿Qué significa 'cumplir la ley' en Mateo 5:17?"
+            className="flex-1 bg-slate-900 border border-slate-700 text-white px-4 py-2.5 rounded-xl text-xs focus:outline-none focus:border-cyan-500"
+          />
+          <button
+            type="submit"
+            className="bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md"
+          >
+            Consultar
+          </button>
+        </form>
+      </div>
+    </main>
+  );
+}
