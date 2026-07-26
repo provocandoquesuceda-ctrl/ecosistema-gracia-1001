@@ -101,3 +101,204 @@ export default function Home() {
     Ingresar al Acelerador ➔
   </Link>
 </div>
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function RecursosAvanzadosPage() {
+  const [seccion, setSeccion] = useState<'griego' | 'apologetica' | 'homiletica'>('griego');
+
+  // MÓDULO 1: Lexicografía (Griego de la Gracia)
+  const terminosGriego = [
+    {
+      palabra: 'Χάρις (Charis)',
+      traduccion: 'Gracia / Favor inmerecido',
+      definición: 'El favor inclinado de Dios hacia quien no tiene mérito. No es un pago por esfuerzo, sino un regalo absoluto.',
+      aplicacion: 'Tu aceptación ante Dios no fluctúa según tu rendimiento diario.'
+    },
+    {
+      palabra: 'Δικαιοσύνη (Dikaiosyne)',
+      traduccion: 'Justicia / Estado de corrección legal',
+      definición: 'Condición legal dada al creyente donde es declarado libre de todo cargo en el tribunal de Dios.',
+      aplicacion: 'No trabajas para ser justo; actúas correctamente porque ya fuiste declarado justo en Cristo.'
+    },
+    {
+      palabra: 'Ἀπολύτρωσις (Apolytrosis)',
+      traduccion: 'Redención / Liberación por rescate',
+      definición: 'Pago total del precio de rescate para liberar a un esclavo permanentemente de su antiguo amo.',
+      aplicacion: 'Fuiste comprado por la sangre de Cristo; el pecado y la culpa ya no tienen derecho legal sobre ti.'
+    }
+  ];
+
+  // MÓDULO 2: Apologética y Pasajes Complejos
+  const pasajesApologetica = [
+    {
+      pasaje: 'Hebreos 10:26',
+      texto: '"Porque si pecáremos voluntariamente después de haber recibido el conocimiento de la verdad..."',
+      malinterpretacion: 'Creer que si vuelves a fallar, pierdes la salvación y ya no hay perdón para ti.',
+      explicacionGracia: 'El contexto de Hebreos habla de judíos que rechazaban el sacrificio definitivo de Jesús para volver al sistema de sacrificios de animales. El "único sacrificio" rechazado era Jesús; no se refiere a tropiezos diarios del creyente.'
+    },
+    {
+      pasaje: '1 Juan 1:9',
+      texto: '"Si confesamos nuestros pecados, él es fiel y justo para perdonar..."',
+      malinterpretacion: 'Pensar que si mueres con un pecado sin confesar verbalmente, te vas al infierno.',
+      explicacionGracia: 'Confesar (Homologeo) significa "coincidir con Dios" en que somos pecadores necesitados de Salvador. La carta contrarrestaba el gnosticismo que negaba la existencia del pecado.'
+    }
+  ];
+
+  // MÓDULO 3: Plantilla Homilética
+  const bosquejoEjemplo = {
+    titulo: 'Libres de la Condenación',
+    pasajeBase: 'Romanos 8:1-4',
+    introduccion: 'Ilustrar la diferencia entre vivir bajo la amenaza de un juez vs. vivir bajo la protección de un padre.',
+    punto1: '1. El veredicto de Dios: Ninguna condenación en Cristo.',
+    punto2: '2. La ley del Espíritu de vida nos libró de la ley del pecado.',
+    punto3: '3. Lo que era imposible para la Ley por la debilidad humana, Dios lo hizo enviando a su Hijo.',
+    conclusionYLlamado: 'Invitar a la audiencia a descansar en la obra terminada de Cristo y soltar la carga de la culpa.'
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-5xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800">
+          🎓 Herramientas Académicas de Alto Impacto
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Módulos de Valor Teológico Avanzado</h1>
+        <p className="text-slate-400 text-sm">
+          Lexicografía, apologética del Nuevo Pacto y taller de comunicación homilética.
+        </p>
+      </header>
+
+      {/* Selector de Módulos */}
+      <div className="flex flex-wrap gap-3 border-b border-slate-800 pb-4">
+        <button
+          onClick={() => setSeccion('griego')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            seccion === 'griego'
+              ? 'bg-amber-600 text-white shadow-lg'
+              : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+          }`}
+        >
+          🔬 Griego de la Gracia
+        </button>
+        <button
+          onClick={() => setSeccion('apologetica')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            seccion === 'apologetica'
+              ? 'bg-indigo-600 text-white shadow-lg'
+              : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+          }`}
+        >
+          🛡️ Apologética & Pasajes Difíciles
+        </button>
+        <button
+          onClick={() => setSeccion('homiletica')}
+          className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all ${
+            seccion === 'homiletica'
+              ? 'bg-emerald-600 text-white shadow-lg'
+              : 'bg-slate-800 text-slate-400 hover:bg-slate-700'
+          }`}
+        >
+          📢 Taller de Homilética
+        </button>
+      </div>
+
+      {/* MÓDULO 1: LEXICOGRAFÍA GRIEGA */}
+      {seccion === 'griego' && (
+        <section className="space-y-4">
+          <div className="bg-amber-950/30 border border-amber-800/50 p-4 rounded-xl text-xs text-amber-300">
+            ℹ️ <strong>Lexicografía Práctica:</strong> Términos originales del Nuevo Testamento explicados con enfoque de liberación y gracia.
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {terminosGriego.map((t, idx) => (
+              <div key={idx} className="bg-slate-800 p-5 rounded-2xl border border-slate-700 space-y-3">
+                <div className="border-b border-slate-700 pb-2">
+                  <h3 className="font-bold text-amber-400 text-base">{t.palabra}</h3>
+                  <span className="text-[11px] text-slate-400">{t.traduccion}</span>
+                </div>
+                <p className="text-xs text-slate-300 leading-relaxed">{t.definición}</p>
+                <div className="bg-slate-900 p-3 rounded-xl border border-slate-700/80">
+                  <span className="text-[10px] text-indigo-400 font-bold block">💡 Aplicación Práctica:</span>
+                  <span className="text-xs text-slate-200">{t.aplicacion}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* MÓDULO 2: APOLOGÉTICA DE LA GRACIA */}
+      {seccion === 'apologetica' && (
+        <section className="space-y-4">
+          <div className="bg-indigo-950/30 border border-indigo-800/50 p-4 rounded-xl text-xs text-indigo-300">
+            🛡️ <strong>Exégesis y Respuesta a Objeciones:</strong> Análisis de pasajes comúnmente malinterpretados para infundir temor.
+          </div>
+          <div className="space-y-4">
+            {pasajesApologetica.map((p, idx) => (
+              <div key={idx} className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-4">
+                <div className="flex justify-between items-center border-b border-slate-700 pb-3">
+                  <h3 className="font-bold text-indigo-300 text-lg">{p.pasaje}</h3>
+                  <span className="text-xs text-slate-400 italic">{p.texto}</span>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div className="bg-rose-950/40 border border-rose-900/50 p-4 rounded-xl space-y-1">
+                    <span className="text-rose-400 font-bold block">❌ Mala Interpretación Común:</span>
+                    <p className="text-slate-300 leading-relaxed">{p.malinterpretacion}</p>
+                  </div>
+                  <div className="bg-emerald-950/40 border border-emerald-900/50 p-4 rounded-xl space-y-1">
+                    <span className="text-emerald-400 font-bold block">✅ Respuesta de Gracia & Contexto:</span>
+                    <p className="text-slate-300 leading-relaxed">{p.explicacionGracia}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* MÓDULO 3: TALLER DE HOMILÉTICA */}
+      {seccion === 'homiletica' && (
+        <section className="bg-slate-800 p-6 rounded-2xl border border-slate-700 space-y-6">
+          <div className="border-b border-slate-700 pb-3 space-y-1">
+            <h2 className="text-xl font-bold text-emerald-400">📢 Plantilla Homilética: Predicación Centrara en Cristo</h2>
+            <p className="text-xs text-slate-400">Estructura guiada para armar enseñanzas de alto impacto en minutos.</p>
+          </div>
+
+          <div className="bg-slate-900 p-5 rounded-xl border border-slate-700 space-y-4 text-xs">
+            <div className="flex justify-between items-center border-b border-slate-800 pb-2">
+              <span className="font-bold text-slate-200 text-sm">{bosquejoEjemplo.titulo}</span>
+              <span className="text-indigo-400 font-mono">{bosquejoEjemplo.pasajeBase}</span>
+            </div>
+
+            <div className="space-y-3">
+              <div>
+                <span className="text-emerald-400 font-semibold block">🎯 Introducción Sugerida:</span>
+                <p className="text-slate-300">{bosquejoEjemplo.introduccion}</p>
+              </div>
+              <div>
+                <span className="text-emerald-400 font-semibold block">📌 Desarrollo de Puntos Clave:</span>
+                <ul className="list-disc list-inside text-slate-300 space-y-1 mt-1">
+                  <li>{bosquejoEjemplo.punto1}</li>
+                  <li>{bosquejoEjemplo.punto2}</li>
+                  <li>{bosquejoEjemplo.punto3}</li>
+                </ul>
+              </div>
+              <div>
+                <span className="text-emerald-400 font-semibold block">🚀 Conclusión y Aplicación:</span>
+                <p className="text-slate-300">{bosquejoEjemplo.conclusionYLlamado}</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+  );
+}
+<Link
+  href="/universidad/recursos"
+  className="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+>
+  <span>🔬</span> Recursos Avanzados (Griego, Apologética & Homilética)
+</Link>
