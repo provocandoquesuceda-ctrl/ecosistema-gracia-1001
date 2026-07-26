@@ -153,3 +153,95 @@ export default function HubEditorialPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function EditorialPage() {
+  const [articuloAbierto, setArticuloAbierto] = useState<number | null>(null);
+
+  const articulos = [
+    {
+      id: 1,
+      titulo: 'La Imputación de la Justicia de Cristo en la Teología Paulina',
+      autor: 'Dra. María Fernández',
+      fecha: '20 de Julio, 2026',
+      categoria: 'Exégesis & Doctrina',
+      resumen: 'Un estudio riguroso sobre cómo el concepto griegos de "logizomai" transforma nuestra perspectiva de la aceptación divina.',
+      contenido: `El verbo griego logizomai en las cartas paulinas (especialmente en Romanos 4) no sugiere una mera ficción jurídica, sino una declaración soberana fundada en la sustitución completa. Cuando el creyente descansa en la obra de la cruz, la justicia de Cristo no se le otorga como recompensa por sus obras, sino como una dádiva inmutable.`
+    },
+    {
+      id: 2,
+      titulo: 'El Liderazgo de Servicio vs. La Cultura del Agotamiento',
+      autor: 'Pr. Carlos Mendoza',
+      fecha: '12 de Julio, 2026',
+      categoria: 'Liderazgo & Salud',
+      resumen: 'Reflexiones ministeriales sobre la necesidad de establecer límites saludables sin culpa en el servicio pastoral.',
+      contenido: `El desgaste ministerial a menudo nace de la creencia errónea de que el pastor debe sustituir la provisión de Dios con esfuerzo humano ininterrumpido. El verdadero descanso sabático no es inactividad, sino un acto supremo de fe en la soberanía de Dios sobre el ministerio.`
+    }
+  ];
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-pink-400 bg-pink-950/80 px-3 py-1 rounded-full border border-pink-800">
+          ✍️ Publicaciones Académicas
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Hub Editorial de la Gracia</h1>
+        <p className="text-slate-400 text-sm">
+          Ensayos, artículos teológicos y reflexiones escritas por nuestro cuerpo docente y cohorte estudiantil.
+        </p>
+      </header>
+
+      {/* Lista de Artículos */}
+      <div className="space-y-4">
+        {articulos.map((art) => {
+          const estaAbierto = articuloAbierto === art.id;
+          return (
+            <div
+              key={art.id}
+              className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700/80 space-y-4 hover:border-pink-500/40 transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex justify-between items-center text-[10px]">
+                  <span className="bg-slate-900 text-pink-400 border border-slate-700 px-2.5 py-0.5 rounded-full font-bold uppercase">
+                    {art.categoria}
+                  </span>
+                  <span className="text-slate-500 font-mono">{art.fecha}</span>
+                </div>
+                <h2 className="text-lg font-bold text-slate-100">{art.titulo}</h2>
+                <p className="text-xs text-pink-300 font-medium">Por: {art.autor}</p>
+                <p className="text-xs text-slate-400 leading-relaxed">{art.resumen}</p>
+              </div>
+
+              {estaAbierto && (
+                <div className="bg-slate-900/90 p-5 rounded-2xl border border-slate-700 text-xs text-slate-300 leading-relaxed space-y-3 pt-4">
+                  <p>{art.contenido}</p>
+                </div>
+              )}
+
+              <button
+                onClick={() => setArticuloAbierto(estaAbierto ? null : art.id)}
+                className="bg-slate-900 hover:bg-slate-700 text-pink-400 border border-slate-700 font-bold text-xs px-4 py-2 rounded-xl transition-all block"
+              >
+                {estaAbierto ? 'Ocultar Artículo ▲' : 'Leer Artículo Completo ▼'}
+              </button>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-pink-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
