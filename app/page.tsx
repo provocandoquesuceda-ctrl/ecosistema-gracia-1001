@@ -350,3 +350,19 @@ export default function RecursosAvanzadosPage() {
     <span>💬</span> Ágora & Foro
   </Link>
 </div>
+
+<div className="flex flex-wrap gap-2">
+  <Link
+    href="/universidad/biblioteca"
+    className="bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-emerald-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>📚</span> Biblioteca Digital
+  </Link>
+
+  <Link
+    href="/universidad/audioteca"
+    className="bg-slate-800 hover:bg-slate-700 text-violet-400 border border-violet-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>🎧</span> Audioteca de Meditación
+  </Link>
+</div>
