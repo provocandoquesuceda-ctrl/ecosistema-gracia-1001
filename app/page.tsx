@@ -320,3 +320,18 @@ export default function RecursosAvanzadosPage() {
 >
   <span>🏅</span> Certificados Digitales
 </Link>
+<div className="flex flex-wrap gap-2">
+  <Link
+    href="/universidad/editorial"
+    className="bg-slate-800 hover:bg-slate-700 text-pink-400 border border-pink-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>✍️</span> Hub Editorial & Copys
+  </Link>
+
+  <Link
+    href="/universidad/mentoria"
+    className="bg-slate-800 hover:bg-slate-700 text-purple-400 border border-purple-800/60 font-semibold text-xs px-4 py-2 rounded-xl transition-all shadow-md flex items-center gap-2"
+  >
+    <span>👥</span> Centro de Mentoría Dual
+  </Link>
+</div>
