@@ -1,4 +1,4 @@
-'item client';
+'use client';
 
 import { useState } from 'react';
 
@@ -31,7 +31,6 @@ export default function AudiotecaPage() {
 
   return (
     <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
-      {/* Header */}
       <header className="border-b border-slate-800 pb-6 space-y-2">
         <span className="text-xs font-semibold uppercase tracking-wider text-violet-400 bg-violet-950/80 px-3 py-1 rounded-full border border-violet-800">
           🎧 Formación sobre la Marcha
@@ -42,7 +41,6 @@ export default function AudiotecaPage() {
         </p>
       </header>
 
-      {/* Lista de Audios */}
       <div className="space-y-3">
         {audios.map((a) => (
           <div
