@@ -115,3 +115,149 @@ export default function EvaluacionPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function EvaluacionPage() {
+  const preguntas = [
+    {
+      id: 1,
+      pregunta: '¿Cuál es el enfoque principal de la interpretación hermenéutica cristocéntrica?',
+      opciones: [
+        'Buscar mandamientos morales desvinculados del contexto de la gracia.',
+        'Entender todas las Escrituras a la luz de la persona y obra terminada de Jesucristo.',
+        'Priorizar la interpretación alegórica por encima de la gramatico-histórica.',
+        'Enfocarse únicamente en el cumplimiento de los rituales del Antiguo Testamento.'
+      ],
+      correcta: 1
+    },
+    {
+      id: 2,
+      pregunta: 'En la exégesis de la carta a los Gálatas, ¿qué representa el "otro evangelio" confrontado por Pablo?',
+      opciones: [
+        'La enseñanza de filosofías griegas en la iglesia.',
+        'Cualquier mensaje que añada la observancia de la ley o mérito humano a la gracia de Cristo.',
+        'La traducción incorrecta de los textos en hebreo.',
+        'El uso de música no litúrgica en la reunión.'
+      ],
+      correcta: 1
+    }
+  ];
+
+  const [respuestas, setRespuestas] = useState<{ [key: number]: number }>({});
+  const [enviado, setEnviado] = useState(false);
+  const [puntaje, setPuntaje] = useState(0);
+
+  const handleSelect = (preguntaId: number, opcionIndex: number) => {
+    setRespuestas({ ...respuestas, [preguntaId]: opcionIndex });
+  };
+
+  const calcularResultado = () => {
+    let puntos = 0;
+    preguntas.forEach((q) => {
+      if (respuestas[q.id] === q.correcta) {
+        puntos += 50;
+      }
+    });
+    setPuntaje(puntos);
+    setEnviado(true);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-teal-400 bg-teal-950/80 px-3 py-1 rounded-full border border-teal-800">
+          📝 Evaluación Continua
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Cuestionario Exegético del Trimestre</h1>
+        <p className="text-slate-400 text-sm">
+          Pone a prueba tu comprensión teológica antes de tramitar tu certificado oficial.
+        </p>
+      </header>
+
+      {!enviado ? (
+        <div className="space-y-6">
+          {preguntas.map((q, idx) => (
+            <div key={q.id} className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+              <h2 className="text-sm font-bold text-slate-100 flex items-center gap-2">
+                <span className="text-teal-400 font-mono">0{idx + 1}.</span> {q.pregunta}
+              </h2>
+
+              <div className="space-y-2">
+                {q.opciones.map((op, opIdx) => {
+                  const seleccionada = respuestas[q.id] === opIdx;
+                  return (
+                    <button
+                      key={opIdx}
+                      onClick={() => handleSelect(q.id, opIdx)}
+                      className={`w-full text-left p-3.5 rounded-xl border text-xs transition-all ${
+                        seleccionada
+                          ? 'bg-teal-950/80 border-teal-500 text-teal-200 font-semibold'
+                          : 'bg-slate-900/80 border-slate-700/80 text-slate-300 hover:bg-slate-800'
+                      }`}
+                    >
+                      {op}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
+
+          <button
+            onClick={calcularResultado}
+            disabled={Object.keys(respuestas).length < preguntas.length}
+            className="w-full bg-teal-500 hover:bg-teal-400 disabled:bg-slate-800 disabled:text-slate-600 disabled:border-slate-700 text-slate-950 font-bold text-sm py-3.5 rounded-2xl transition-all shadow-lg"
+          >
+            Enviar y Finalizar Evaluación
+          </button>
+        </div>
+      ) : (
+        <div className="bg-slate-800 p-8 rounded-3xl border border-teal-500/50 text-center space-y-4 shadow-xl">
+          <span className="text-4xl">🎉</span>
+          <h2 className="text-2xl font-bold text-slate-100">Evaluación Completada</h2>
+          <div className="py-2">
+            <p className="text-xs text-slate-400">Calificación obtenida:</p>
+            <p className="text-4xl font-extrabold text-teal-400 font-mono mt-1">{puntaje} / 100</p>
+          </div>
+          <p className="text-xs text-slate-300 max-w-md mx-auto">
+            {puntaje >= 80
+              ? '¡Excelente trabajo! Has demostrado una comprensión sólida de los principios de interpretación cristocéntrica.'
+              : 'Has completado la autoevaluación. Te recomendamos repasar los temas en la Biblioteca antes de volver a intentarlo.'}
+          </p>
+
+          <div className="pt-4 flex flex-wrap justify-center gap-3">
+            <Link
+              href="/universidad/certificados"
+              className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+            >
+              Ir a Mis Certificados →
+            </Link>
+            <button
+              onClick={() => {
+                setEnviado(false);
+                setRespuestas({});
+              }}
+              className="bg-slate-900 hover:bg-slate-700 text-slate-300 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+            >
+              Reintentar Cuestionario
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-teal-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
