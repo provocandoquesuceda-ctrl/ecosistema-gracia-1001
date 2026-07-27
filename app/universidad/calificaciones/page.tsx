@@ -165,3 +165,166 @@ export default function CalificacionesPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function CalificacionesPage() {
+  const [trimestre, setTrimestre] = useState('2026-1');
+
+  const historial = [
+    {
+      codigo: 'TEO-101',
+      materia: 'Hermenéutica Exegética & Análisis Gramatical',
+      trimestre: '2026-1',
+      creditos: 4,
+      tareas: 95,
+      examen: 92,
+      final: 93,
+      estado: 'Aprobado',
+      nota: 'A'
+    },
+    {
+      codigo: 'GRK-201',
+      materia: 'Griego Koiné II & Léxico del Nuevo Testamento',
+      trimestre: '2026-1',
+      creditos: 3,
+      tareas: 88,
+      examen: 90,
+      final: 89,
+      estado: 'Aprobado',
+      nota: 'B+'
+    },
+    {
+      codigo: 'HIS-301',
+      materia: 'Historia de la Iglesia & Desarrollo del Dogma',
+      trimestre: '2026-2',
+      creditos: 3,
+      tareas: 96,
+      examen: 94,
+      final: 95,
+      estado: 'En Cursado',
+      nota: 'A'
+    }
+  ];
+
+  const materiasFiltradas = historial.filter((m) => m.trimestre === trimestre || trimestre === 'Todos');
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800">
+          📊 Evaluación & Récord
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Boletín de Calificaciones</h1>
+        <p className="text-slate-400 text-sm">
+          Consulta tu rendimiento académico, calificaciones desglosadas por materia y avance de créditos del programa.
+        </p>
+      </header>
+
+      {/* Resumen de KPI Académico */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Promedio General (GPA)</span>
+          <p className="text-2xl font-extrabold text-emerald-400 font-mono">92.3 / 100</p>
+          <p className="text-[11px] text-emerald-300 font-medium">Honor: Magna Cum Laude</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Créditos Aprobados</span>
+          <p className="text-2xl font-extrabold text-cyan-400 font-mono">10 / 120</p>
+          <p className="text-[11px] text-slate-400">Licenciatura en Teología</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Estatus Académico</span>
+          <p className="text-2xl font-extrabold text-indigo-400 font-mono">Regular</p>
+          <p className="text-[11px] text-slate-400">Sin sanciones disciplinarias</p>
+        </div>
+      </div>
+
+      {/* Filtro por Trimestre */}
+      <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-2xl border border-slate-800">
+        <label className="text-xs font-bold text-slate-300">Filtrar por Período Académico:</label>
+        <select
+          value={trimestre}
+          onChange={(e) => setTrimestre(e.target.value)}
+          className="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-emerald-400"
+        >
+          <option value="2026-1">Trimestre 2026-1</option>
+          <option value="2026-2">Trimestre 2026-2</option>
+          <option value="Todos">Ver Todo el Historial</option>
+        </select>
+      </div>
+
+      {/* Tabla / Lista de Calificaciones */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          📝 Desglose de Asignaturas
+        </h2>
+
+        <div className="space-y-3">
+          {materiasFiltradas.map((item, idx) => (
+            <div
+              key={idx}
+              className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/60 px-2 py-0.5 rounded border border-emerald-900 font-bold">
+                    {item.codigo}
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-400">
+                    {item.creditos} Créditos
+                  </span>
+                </div>
+                <h3 className="text-sm font-bold text-slate-100">{item.materia}</h3>
+                <div className="text-[11px] text-slate-400 space-x-3">
+                  <span>Tareas: <strong className="text-slate-200">{item.tareas}%</strong></span>
+                  <span>Examen: <strong className="text-slate-200">{item.examen}%</strong></span>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4 w-full sm:w-auto justify-between sm:justify-end border-t sm:border-t-0 pt-3 sm:pt-0 border-slate-700">
+                <div className="text-right">
+                  <span className="text-xl font-extrabold text-emerald-400 font-mono block">
+                    {item.final} / 100
+                  </span>
+                  <span className="text-[10px] font-bold text-slate-400 uppercase">
+                    Nota: {item.nota} ({item.estado})
+                  </span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Descarga de Certificado */}
+      <div className="bg-slate-800 p-5 rounded-2xl border border-slate-700 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div className="space-y-0.5">
+          <h4 className="text-xs font-bold text-slate-200">Récord Oficial Firmado</h4>
+          <p className="text-[11px] text-slate-400">Genera una copia en PDF con sello digital para trámites académicos.</p>
+        </div>
+        <button
+          onClick={() => alert('Generando PDF del Récord Académico Oficial...')}
+          className="bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-all shadow-md w-full sm:w-auto"
+        >
+          Descargar Récord PDF 📄
+        </button>
+      </div>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
