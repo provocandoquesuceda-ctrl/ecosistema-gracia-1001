@@ -154,3 +154,127 @@ export default function UniversidadPage() {
     </main>
   );
 }
+'use client';
+
+import Link from 'next/link';
+
+export default function UniversidadHubPage() {
+  const modulos = [
+    {
+      titulo: 'Portal Académico & Cursos',
+      descripcion: 'Clases activas, calificaciones, avance curricular y entrega de tareas.',
+      href: '/universidad/academico',
+      icono: '📖',
+      color: 'border-blue-500/40 hover:border-blue-400 text-blue-400',
+    },
+    {
+      titulo: 'Biblioteca Digital',
+      descripcion: 'Comentarios, léxicos, manuscritos y recursos de investigación exegética.',
+      href: '/universidad/biblioteca',
+      icono: '📚',
+      color: 'border-cyan-500/40 hover:border-cyan-400 text-cyan-400',
+    },
+    {
+      titulo: 'Gestión Financiera & Pagos',
+      descripcion: 'Colegiaturas, historial de pagos, becas y descarga de recibos.',
+      href: '/universidad/finanzas',
+      icono: '💳',
+      color: 'border-emerald-500/40 hover:border-emerald-400 text-emerald-400',
+    },
+    {
+      titulo: 'Prácticas & Servicio Social',
+      descripcion: 'Registro de horas de practicum, pastoreo e informes de supervisión.',
+      href: '/universidad/practicas',
+      icono: '🛠️',
+      color: 'border-orange-500/40 hover:border-orange-400 text-orange-400',
+    },
+    {
+      titulo: 'Centro de Notificaciones',
+      descripcion: 'Alertas en tiempo real, anuncios institucionales y avisos académicos.',
+      href: '/universidad/notificaciones',
+      icono: '🔔',
+      color: 'border-purple-500/40 hover:border-purple-400 text-purple-400',
+    },
+    {
+      titulo: 'Red Alumni & Bolsa de Trabajo',
+      descripcion: 'Directorio de egresados, red de mentores y convocatorias pastorales.',
+      href: '/universidad/alumni',
+      icono: '🎓',
+      color: 'border-amber-500/40 hover:border-amber-400 text-amber-400',
+    },
+    {
+      titulo: 'Titulación & Certificados',
+      descripcion: 'Solicitud de títulos, récords de notas y verificador digital seguro.',
+      href: '/universidad/titulacion',
+      icono: '📜',
+      color: 'border-indigo-500/40 hover:border-indigo-400 text-indigo-400',
+    },
+    {
+      titulo: 'Centro de Investigación',
+      descripcion: 'Repositorio de papers, monografías y proyectos de tesis revisados.',
+      href: '/universidad/investigacion',
+      icono: '🔬',
+      color: 'border-teal-500/40 hover:border-teal-400 text-teal-400',
+    },
+    {
+      titulo: 'Mesa de Ayuda & Soporte',
+      descripcion: 'Tickets de asistencia técnica, consultas y preguntas frecuentes.',
+      href: '/universidad/soporte',
+      icono: '🎟️',
+      color: 'border-rose-500/40 hover:border-rose-400 text-rose-400',
+    },
+    {
+      titulo: 'Perfil & Seguridad',
+      descripcion: 'Credencial digital, datos personales, clave y autenticación 2FA.',
+      href: '/universidad/perfil',
+      icono: '👤',
+      color: 'border-sky-500/40 hover:border-sky-400 text-sky-400',
+    },
+  ];
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-6xl mx-auto space-y-8">
+      {/* Header Central */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-blue-400 bg-blue-950/80 px-3 py-1 rounded-full border border-blue-800">
+          🏛️ Portal Campus Virtual
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Plataforma Teológica Universitario</h1>
+        <p className="text-slate-400 text-sm">
+          Bienvenido al centro neurálgico de aprendizaje, investigación y gestión académica. Selecciona un área para comenzar.
+        </p>
+      </header>
+
+      {/* Grid de Módulos */}
+      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        {modulos.map((m, idx) => (
+          <Link
+            key={idx}
+            href={m.href}
+            className={`bg-slate-800/80 p-6 rounded-3xl border ${m.color} hover:bg-slate-800 transition-all group flex flex-col justify-between space-y-4 shadow-lg`}
+          >
+            <div className="space-y-3">
+              <div className="text-3xl">{m.icono}</div>
+              <h2 className="text-base font-bold text-slate-100 group-hover:text-white transition-colors">
+                {m.titulo}
+              </h2>
+              <p className="text-xs text-slate-400 leading-relaxed">
+                {m.descripcion}
+              </p>
+            </div>
+
+            <div className="pt-2 flex items-center justify-between text-xs font-bold">
+              <span>Ingresar al módulo</span>
+              <span className="group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </Link>
+        ))}
+      </section>
+
+      {/* Footer informativo */}
+      <footer className="bg-slate-800/40 p-6 rounded-3xl border border-slate-800/80 text-center text-xs text-slate-500 font-mono">
+        Sistema Académico Integrado • Universidad Teológica Digital © 2026
+      </footer>
+    </main>
+  );
+}
