@@ -31,3 +31,69 @@ export default function RootLayout({
     </html>
   );
 }
+import Link from 'next/link';
+import { ReactNode } from 'react';
+
+export default function UniversidadLayout({ children }: { children: ReactNode }) {
+  return (
+    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans">
+      {/* Barra Superior Fija (Navigation Header) */}
+      <header className="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
+        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+          
+          {/* Brand Logo & Título */}
+          <Link href="/universidad" className="flex items-center gap-2 group">
+            <span className="text-xl">🏛️</span>
+            <div>
+              <span className="text-sm font-extrabold tracking-wide text-white group-hover:text-cyan-400 transition-colors">
+                CAMPUS VIRTUAL
+              </span>
+              <span className="text-[10px] text-slate-400 block font-mono">
+                Universidad Teológica Digital
+              </span>
+            </div>
+          </Link>
+
+          {/* Navegación Rápida */}
+          <nav className="flex flex-wrap items-center gap-1.5 text-xs font-semibold text-slate-300">
+            <Link
+              href="/universidad/academico"
+              className="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all"
+            >
+              📖 Académico
+            </Link>
+            <Link
+              href="/universidad/biblioteca"
+              className="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all"
+            >
+              📚 Biblioteca
+            </Link>
+            <Link
+              href="/universidad/finanzas"
+              className="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all"
+            >
+              💳 Finanzas
+            </Link>
+            <Link
+              href="/universidad/notificaciones"
+              className="px-2.5 py-1.5 rounded-lg hover:bg-slate-800 hover:text-white transition-all"
+            >
+              🔔 Alertas
+            </Link>
+            <Link
+              href="/universidad/perfil"
+              className="px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-cyan-400 hover:bg-slate-700 transition-all font-mono"
+            >
+              👤 Perfil
+            </Link>
+          </nav>
+        </div>
+      </header>
+
+      {/* Ámbito de Contenido */}
+      <div className="flex-1">
+        {children}
+      </div>
+    </div>
+  );
+}
