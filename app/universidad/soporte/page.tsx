@@ -296,3 +296,189 @@ export default function SoportePage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function SoportePage() {
+  const [categoria, setCategoria] = useState('Acceso y Plataforma');
+  const [asunto, setAsunto] = useState('');
+  const [descripcion, setDescripcion] = useState('');
+  const [ticketCreado, setTicketCreado] = useState(false);
+
+  const [tickets, setTickets] = useState([
+    {
+      id: 'TCK-2026-881',
+      asunto: 'Error al subir monografía final de Hermenéutica',
+      categoria: 'Plataforma LMS',
+      estado: 'En Proceso',
+      fecha: '25 de Julio, 2026',
+      color: 'border-amber-500 text-amber-400 bg-amber-950/40'
+    },
+    {
+      id: 'TCK-2026-412',
+      asunto: 'Solicitud de prórroga para acceso a la Biblioteca Digital',
+      categoria: 'Biblioteca',
+      estado: 'Resuelto',
+      fecha: '14 de Junio, 2026',
+      color: 'border-emerald-500 text-emerald-400 bg-emerald-950/40'
+    }
+  ]);
+
+  const handleCrearTicket = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (asunto && descripcion) {
+      const nuevoTicket = {
+        id: `TCK-2026-${Math.floor(100 + Math.random() * 900)}`,
+        asunto,
+        categoria,
+        estado: 'Abierto',
+        fecha: 'Hoy',
+        color: 'border-cyan-500 text-cyan-400 bg-cyan-950/40'
+      };
+
+      setTickets([nuevoTicket, ...tickets]);
+      setTicketCreado(true);
+      setAsunto('');
+      setDescripcion('');
+
+      setTimeout(() => setTicketCreado(false), 4000);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-rose-400 bg-rose-950/80 px-3 py-1 rounded-full border border-rose-800">
+          🛠️ Mesa de Ayuda
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Soporte Académico & Técnico</h1>
+        <p className="text-slate-400 text-sm">
+          Abre un ticket de asistencia, dale seguimiento a tus consultas administrativas o consulta las preguntas frecuentes.
+        </p>
+      </header>
+
+      {/* Formulario de Creación de Tickets */}
+      <section className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-rose-400">
+          🎟️ Generar Nuevo Ticket de Asistencia
+        </h2>
+
+        <form onSubmit={handleCrearTicket} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Categoría del Incidente:</label>
+              <select
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-400 transition-all"
+              >
+                <option value="Acceso y Plataforma">Acceso / Contraseña / Plataforma LMS</option>
+                <option value="Biblioteca">Acceso a Recursos de Biblioteca</option>
+                <option value="Finanzas">Pagos / Recibos / Colegiatura</option>
+                <option value="Registro Academico">Notas / Inscripciones / Certificados</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Asunto Principal:</label>
+              <input
+                type="text"
+                required
+                value={asunto}
+                onChange={(e) => setAsunto(e.target.value)}
+                placeholder="Ej. Dificultad para acceder al aula virtual"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs text-slate-300 font-semibold">Detalle del Problema:</label>
+            <textarea
+              rows={3}
+              required
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              placeholder="Explica detalladamente la situación o error presentado..."
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-all"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md"
+          >
+            Enviar Ticket a Soporte 🚀
+          </button>
+
+          {ticketCreado && (
+            <p className="text-xs text-emerald-400 font-semibold pt-1">
+              ✓ Ticket creado con éxito. Un agente del equipo de soporte responderá a la brevedad.
+            </p>
+          )}
+        </form>
+      </section>
+
+      {/* Historial de Tickets */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          📜 Estado de Mis Tickets
+        </h2>
+
+        <div className="space-y-3">
+          {tickets.map((t) => (
+            <div
+              key={t.id}
+              className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono text-slate-400 font-bold">{t.id}</span>
+                  <span className="text-[10px] font-mono text-slate-400">| {t.fecha}</span>
+                </div>
+                <h3 className="text-xs font-bold text-slate-100">{t.asunto}</h3>
+                <p className="text-[11px] text-slate-400">Categoría: {t.categoria}</p>
+              </div>
+
+              <span className={`text-[10px] font-bold uppercase px-3 py-1 rounded-full border ${t.color}`}>
+                {t.estado}
+              </span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Base de Conocimientos Rápida */}
+      <section className="bg-slate-800/50 p-6 rounded-3xl border border-slate-800 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-rose-400">
+          ❓ Preguntas Frecuentes (FAQ)
+        </h2>
+
+        <div className="space-y-2 text-xs text-slate-300">
+          <details className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/80 cursor-pointer">
+            <summary className="font-bold text-slate-200">¿Cómo restablezco mi contraseña de acceso?</summary>
+            <p className="mt-2 text-slate-400 text-[11px]">Puedes hacerlo directamente desde la pantalla de inicio de sesión haciendo clic en "¿Olvidaste tu contraseña?".</p>
+          </details>
+
+          <details className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/80 cursor-pointer">
+            <summary className="font-bold text-slate-200">¿Cuál es el tiempo de respuesta promedio para un ticket?</summary>
+            <p className="mt-2 text-slate-400 text-[11px]">Nuestro equipo de soporte técnico responde las solicitudes en un lapso máximo de 24 horas hábiles.</p>
+          </details>
+        </div>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
