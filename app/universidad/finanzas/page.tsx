@@ -128,3 +128,177 @@ export default function FinanzasPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function FinanzasUniversidadPage() {
+  const [modalPago, setModalPago] = useState(false);
+  const [procesando, setProcesando] = useState(false);
+  const [pagoExitoso, setPagoExitoso] = useState(false);
+
+  const balanceActual = 150.00; // Balance pendiente en USD
+
+  const historialPagos = [
+    { id: 'TXN-9021', concepto: 'Matrícula Cuatrimestre Sep-Dic', monto: 120.00, fecha: '15 Jul, 2026', estado: 'Completado' },
+    { id: 'TXN-8814', concepto: 'Certificación y Récord de Notas', monto: 25.00, fecha: '10 Jun, 2026', estado: 'Completado' },
+    { id: 'TXN-8750', concepto: 'Cuota Mensual - Junio', monto: 150.00, fecha: '05 Jun, 2026', estado: 'Completado' },
+  ];
+
+  const handlePagar = (e: React.FormEvent) => {
+    e.preventDefault();
+    setProcesando(true);
+    
+    // Simular el tiempo de procesamiento con el banco / pasarela
+    setTimeout(() => {
+      setProcesando(false);
+      setPagoExitoso(true);
+      
+      // Cerrar éxito después de unos segundos
+      setTimeout(() => {
+        setPagoExitoso(false);
+        setModalPago(false);
+      }, 3500);
+    }, 2000);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8 relative">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800">
+            💳 Finanzas & Tesorería
+          </span>
+          <h1 className="text-3xl font-bold mt-2">Estado de Cuenta</h1>
+          <p className="text-slate-400 text-sm">
+            Gestiona tus pagos de colegiatura, revisa tus facturas y mantén tu cuenta al día.
+          </p>
+        </div>
+      </header>
+
+      {/* Resumen de Cuenta */}
+      <section className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700/80 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div className="space-y-1 text-center md:text-left w-full md:w-auto">
+          <h2 className="text-xs text-slate-400 font-bold uppercase tracking-wider">Balance Pendiente</h2>
+          <p className="text-4xl font-bold text-white">${balanceActual.toFixed(2)} <span className="text-lg text-slate-500 font-normal">USD</span></p>
+          <p className="text-xs text-rose-400 font-medium pt-1">Vence el 05 de Agosto, 2026</p>
+        </div>
+
+        <button
+          onClick={() => setModalPago(true)}
+          className="w-full md:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm px-8 py-4 rounded-xl transition-all shadow-md shadow-emerald-900/50 flex items-center justify-center gap-2"
+        >
+          <span>Pagar Ahora</span>
+          <span>→</span>
+        </button>
+      </section>
+
+      {/* Historial de Transacciones */}
+      <section className="space-y-4">
+        <h3 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          🧾 Historial de Pagos Recientes
+        </h3>
+
+        <div className="bg-slate-800 border border-slate-700 rounded-2xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-slate-900/50 border-b border-slate-700 text-slate-400 uppercase">
+                <tr>
+                  <th className="px-4 py-3 font-semibold">ID Ref.</th>
+                  <th className="px-4 py-3 font-semibold">Concepto</th>
+                  <th className="px-4 py-3 font-semibold">Fecha</th>
+                  <th className="px-4 py-3 font-semibold">Monto</th>
+                  <th className="px-4 py-3 font-semibold">Estado</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-700/50 text-slate-200">
+                {historialPagos.map((pago) => (
+                  <tr key={pago.id} className="hover:bg-slate-800/50 transition-colors">
+                    <td className="px-4 py-3 font-mono text-[10px] text-slate-400">{pago.id}</td>
+                    <td className="px-4 py-3 font-medium">{pago.concepto}</td>
+                    <td className="px-4 py-3 text-slate-400">{pago.fecha}</td>
+                    <td className="px-4 py-3 font-bold text-emerald-400">${pago.monto.toFixed(2)}</td>
+                    <td className="px-4 py-3">
+                      <span className="bg-emerald-950/50 text-emerald-400 border border-emerald-800/50 px-2 py-1 rounded text-[10px] font-bold">
+                        {pago.estado}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+
+      {/* Modal de Pago (Overlay) */}
+      {modalPago && (
+        <div className="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-700 p-6 rounded-3xl max-w-md w-full shadow-2xl space-y-6">
+            {!pagoExitoso ? (
+              <>
+                <div className="flex justify-between items-center border-b border-slate-800 pb-4">
+                  <h3 className="text-lg font-bold text-white">Procesar Pago</h3>
+                  <button onClick={() => setModalPago(false)} className="text-slate-500 hover:text-white transition-colors">
+                    ✕
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="bg-slate-800 p-4 rounded-xl flex justify-between items-center text-sm">
+                    <span className="text-slate-400">Total a Pagar:</span>
+                    <span className="font-bold text-xl text-emerald-400">${balanceActual.toFixed(2)}</span>
+                  </div>
+
+                  <form onSubmit={handlePagar} className="space-y-4">
+                    <div className="space-y-1">
+                      <label className="text-xs text-slate-400 font-semibold">Número de Tarjeta</label>
+                      <input type="text" required placeholder="0000 0000 0000 0000" className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono" />
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="space-y-1">
+                        <label className="text-xs text-slate-400 font-semibold">Expiración</label>
+                        <input type="text" required placeholder="MM/YY" className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono" />
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs text-slate-400 font-semibold">CVC</label>
+                        <input type="password" required placeholder="123" maxLength={4} className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-emerald-500 font-mono" />
+                      </div>
+                    </div>
+
+                    <button 
+                      type="submit" 
+                      disabled={procesando}
+                      className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold text-sm px-4 py-3 rounded-xl transition-all mt-2"
+                    >
+                      {procesando ? 'Procesando transacción...' : 'Confirmar Pago'}
+                    </button>
+                  </form>
+                </div>
+              </>
+            ) : (
+              <div className="text-center py-8 space-y-4">
+                <div className="text-6xl mb-2">✅</div>
+                <h3 className="text-xl font-bold text-emerald-400">¡Pago Exitoso!</h3>
+                <p className="text-sm text-slate-400">Tu colegiatura ha sido cubierta exitosamente. El recibo ha sido enviado a tu correo.</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </main>
+  );
+}
