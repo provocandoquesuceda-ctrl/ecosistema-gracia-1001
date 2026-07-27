@@ -333,3 +333,182 @@ export default function AlumniPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function AlumniPage() {
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
+  const [postulado, setPostulado] = useState<number | null>(null);
+
+  const vacantes = [
+    {
+      id: 1,
+      titulo: 'Docente Titular de Griego Koiné',
+      institucion: 'Instituto Bíblico Central',
+      ubicación: 'Remoto / En línea',
+      tipo: 'Académica',
+      fecha: '24 de Julio, 2026',
+      badge: 'Tiempo Parcial',
+      color: 'border-cyan-500 text-cyan-400 bg-cyan-950/40'
+    },
+    {
+      id: 2,
+      titulo: 'Pastor Principal / Líder de Comunidad',
+      institucion: 'Iglesia Gracia & Verdad',
+      ubicación: 'Santo Domingo, RD',
+      tipo: 'Pastoral',
+      fecha: '20 de Julio, 2026',
+      badge: 'Tiempo Completo',
+      color: 'border-emerald-500 text-emerald-400 bg-emerald-950/40'
+    },
+    {
+      id: 3,
+      titulo: 'Coordinador de Proyectos de Impacto Social',
+      institucion: 'Red Misionera Internacional',
+      ubicación: 'Híbrido',
+      tipo: 'Misionera',
+      fecha: '15 de Julio, 2026',
+      badge: 'Proyecto',
+      color: 'border-amber-500 text-amber-400 bg-amber-950/40'
+    }
+  ];
+
+  const egresadosDestacados = [
+    {
+      nombre: 'Dra. María Fernández',
+      promocion: 'Clase 2022 - Lic. en Teología',
+      rol: 'Autora & Investigadora Exegética',
+      ubicacion: 'Guatemala'
+    },
+    {
+      nombre: 'Pr. Carlos Mateo',
+      promocion: 'Clase 2020 - Maestría en Pastoral',
+      rol: 'Pastor Principal & Mentor Alumni',
+      ubicacion: 'República Dominicana'
+    }
+  ];
+
+  const vacantesFiltradas = vacantes.filter(
+    (v) => filtroCategoria === 'Todas' || v.tipo === filtroCategoria
+  );
+
+  const handlePostular = (id: number) => {
+    setPostulado(id);
+    setTimeout(() => setPostulado(null), 3000);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800">
+          🎓 Portal Alumni
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Red de Egresados & Convocatorias</h1>
+        <p className="text-slate-400 text-sm">
+          Impulsamos el desarrollo profesional y ministerial de nuestros graduados mediante una red global de mentoría y vacantes exclusivas.
+        </p>
+      </header>
+
+      {/* Métricas Alumni */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Graduados Registrados</span>
+          <p className="text-2xl font-extrabold text-amber-400 font-mono">1,240+</p>
+          <p className="text-[11px] text-slate-400">En 18 países</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Vacantes Activas</span>
+          <p className="text-2xl font-extrabold text-cyan-400 font-mono">12</p>
+          <p className="text-[11px] text-cyan-300">Convocatorias abiertas</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Mentores Alumni</span>
+          <p className="text-2xl font-extrabold text-emerald-400 font-mono">45</p>
+          <p className="text-[11px] text-slate-400">Disponibles para asesoría</p>
+        </div>
+      </div>
+
+      {/* Bolsa de Trabajo Ministerial */}
+      <section className="space-y-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+            💼 Bolsa de Trabajo & Convocatorias
+          </h2>
+
+          <select
+            value={filtroCategoria}
+            onChange={(e) => setFiltroCategoria(e.target.value)}
+            className="bg-slate-800 border border-slate-700 rounded-xl px-3 py-1.5 text-xs text-white focus:outline-none focus:border-amber-400 transition-all"
+          >
+            <option value="Todas">Todas las categorías</option>
+            <option value="Académica">Académicas / Docencia</option>
+            <option value="Pastoral">Pastoral & Liderazgo</option>
+            <option value="Misionera">Proyectos & Misión</option>
+          </select>
+        </div>
+
+        <div className="space-y-3">
+          {vacantesFiltradas.map((v) => (
+            <div
+              key={v.id}
+              className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-slate-600 transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${v.color}`}>
+                    {v.badge}
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">{v.fecha}</span>
+                </div>
+
+                <h3 className="text-base font-bold text-slate-100">{v.titulo}</h3>
+                <p className="text-xs text-slate-300 font-semibold">{v.institucion}</p>
+                <p className="text-[11px] text-slate-400 font-mono">📍 {v.ubicación} | Área: {v.tipo}</p>
+              </div>
+
+              <button
+                onClick={() => handlePostular(v.id)}
+                className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md w-full sm:w-auto text-center"
+              >
+                {postulado === v.id ? '✓ Postulación Enviada' : 'Postular Candidatura 🚀'}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Red de Mentores y Destacados */}
+      <section className="bg-slate-800/50 p-6 rounded-3xl border border-slate-800 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-amber-400">
+          🌟 Destacados de la Red Alumni
+        </h2>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {egresadosDestacados.map((item, idx) => (
+            <div key={idx} className="bg-slate-900/70 p-4 rounded-2xl border border-slate-700/60 space-y-1">
+              <h3 className="text-sm font-bold text-slate-100">{item.nombre}</h3>
+              <p className="text-xs text-amber-400 font-medium">{item.promocion}</p>
+              <p className="text-[11px] text-slate-400">{item.rol}</p>
+              <p className="text-[10px] text-slate-500 font-mono">📍 {item.ubicacion}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
