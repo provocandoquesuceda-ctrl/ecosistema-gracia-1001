@@ -161,3 +161,118 @@ export default function AdminPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function AdminUniversidadPage() {
+  const [filtroMateria, setFiltroMateria] = useState('Todas');
+  const [reporteDescargado, setReporteDescargado] = useState(false);
+
+  const metricasGlobales = [
+    { titulo: 'Matrícula Total', valor: '342 Estudiantes', cambio: '+12% este trimestre', color: 'text-sky-400 border-sky-800 bg-sky-950/40' },
+    { titulo: 'Becas Concedidas', valor: '45 Estudiantes', cambio: '$12,400 USD invertidos', color: 'text-emerald-400 border-emerald-800 bg-emerald-950/40' },
+    { titulo: 'Tasa de Completitud', valor: '91.4%', cambio: 'Rendimiento general', color: 'text-purple-400 border-purple-800 bg-purple-950/40' },
+    { titulo: 'Tickets Pendientes', valor: '3 Solicitudes', cambio: 'Mesa de ayuda activa', color: 'text-amber-400 border-amber-800 bg-amber-950/40' },
+  ];
+
+  const logsAuditoria = [
+    { id: 'LOG-8921', usuario: 'Dra. Elena Gómez', accion: 'Calificaciones publicadas - Griego II', hora: 'Hace 12 min', tipo: 'Docente' },
+    { id: 'LOG-8920', usuario: 'Juan Pérez (ID-8842)', accion: 'Solicitud de Constancia de Estudio', hora: 'Hace 35 min', tipo: 'Trámite' },
+    { id: 'LOG-8919', usuario: 'Sistema de Seguridad', accion: 'Autenticación 2FA validada exitosamente', hora: 'Hace 1 hora', tipo: 'Seguridad' },
+    { id: 'LOG-8918', usuario: 'Comité de Becas', accion: 'Aprobación de Beca Pastoral a estudiante', hora: 'Hace 3 horas', tipo: 'Financiero' },
+  ];
+
+  const handleDescargarReporte = () => {
+    setReporteDescargado(true);
+    setTimeout(() => {
+      setReporteDescargado(false);
+    }, 3500);
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-5xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2 flex flex-col sm:flex-row justify-between sm:items-center gap-4">
+        <div>
+          <span className="text-xs font-semibold uppercase tracking-wider text-rose-400 bg-rose-950/80 px-3 py-1 rounded-full border border-rose-800">
+            📊 Administración Central
+          </span>
+          <h1 className="text-3xl font-bold mt-2">Módulo de Auditoría & Control</h1>
+          <p className="text-slate-400 text-sm">
+            Monitoreo en tiempo real de operaciones, rendimiento académico y seguridad institucional.
+          </p>
+        </div>
+
+        <button
+          onClick={handleDescargarReporte}
+          className="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md self-start sm:self-auto"
+        >
+          Exportar Reporte Ejecutivo 📥
+        </button>
+      </header>
+
+      {reporteDescargado && (
+        <div className="bg-emerald-950/80 border border-emerald-500/50 p-4 rounded-2xl text-xs text-emerald-300 font-semibold">
+          ✓ Reporte de auditoría e indicadores globales generado exitosamente en formato consolidado.
+        </div>
+      )}
+
+      {/* Métricas Principales */}
+      <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {metricasGlobales.map((m, i) => (
+          <div key={i} className="bg-slate-800/80 p-5 rounded-3xl border border-slate-700/80 space-y-2">
+            <span className="text-xs text-slate-400 font-semibold">{m.titulo}</span>
+            <p className="text-2xl font-bold text-white">{m.valor}</p>
+            <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full border inline-block ${m.color}`}>
+              {m.cambio}
+            </span>
+          </div>
+        ))}
+      </section>
+
+      {/* Tabla / Logs de Auditoría */}
+      <section className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+        <div className="flex justify-between items-center border-b border-slate-700 pb-4">
+          <h2 className="text-xs font-bold uppercase tracking-wider text-rose-400">
+            📜 Registro de Actividad del Sistema (Audit Log)
+          </h2>
+          <span className="text-[10px] text-slate-400 font-mono">Actualizado en vivo</span>
+        </div>
+
+        <div className="space-y-3">
+          {logsAuditoria.map((log) => (
+            <div
+              key={log.id}
+              className="bg-slate-900/80 p-4 rounded-2xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs"
+            >
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] font-mono font-bold text-slate-400">{log.id}</span>
+                  <span className="text-slate-200 font-bold">{log.usuario}</span>
+                  <span className="text-[9px] bg-slate-800 px-2 py-0.5 rounded text-rose-300 border border-rose-950">
+                    {log.tipo}
+                  </span>
+                </div>
+                <p className="text-slate-300">{log.accion}</p>
+              </div>
+
+              <span className="text-[11px] text-slate-500 font-mono self-end sm:self-center">{log.hora}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
