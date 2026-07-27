@@ -482,3 +482,147 @@ export default function SoportePage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function SoportePage() {
+  const [categoria, setCategoria] = useState('Acceso y Credenciales');
+  const [asunto, setAsunto] = useState('');
+  const [mensaje, setMensaje] = useState('');
+  const [ticketEnviado, setTicketEnviado] = useState(false);
+
+  const faqs = [
+    {
+      q: '¿Cómo recupero mi clave del correo institucional o del campus?',
+      a: 'Puedes solicitar el restablecimiento directamente en la sección de seguridad o abriendo un ticket en este módulo con la categoría Acceso y Credenciales.',
+    },
+    {
+      q: '¿Dónde puedo ver las calificaciones de períodos anteriores?',
+      a: 'En la sección de Académico dentro del módulo Universidad, haciendo clic en la pestaña "Récord Académico".',
+    },
+    {
+      q: '¿Qué formato deben tener los trabajos adjuntados en las tareas?',
+      a: 'El campus acepta documentos en formato PDF y DOCX con un tamaño máximo de 25 MB por archivo.',
+    },
+  ];
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (asunto && mensaje) {
+      setTicketEnviado(true);
+      setTimeout(() => {
+        setTicketEnviado(false);
+        setAsunto('');
+        setMensaje('');
+      }, 4000);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-orange-400 bg-orange-950/80 px-3 py-1 rounded-full border border-orange-800">
+          🛠️ Mesa de Ayuda
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Soporte Técnico & Atención</h1>
+        <p className="text-slate-400 text-sm">
+          Resuelve tus dudas sobre la plataforma, consulta las preguntas frecuentes o abre un ticket de soporte técnico.
+        </p>
+      </header>
+
+      {/* Preguntas Frecuentes (FAQ) */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          ❓ Preguntas Frecuentes (FAQ)
+        </h2>
+
+        <div className="space-y-3">
+          {faqs.map((faq, idx) => (
+            <div
+              key={idx}
+              className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-2"
+            >
+              <h3 className="text-sm font-bold text-orange-400">{faq.q}</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">{faq.a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Formulario para Nuevo Ticket */}
+      <section className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-orange-400">
+          📩 Generar Ticket de Soporte Técnico
+        </h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Categoría de la Inquietud:</label>
+              <select
+                value={categoria}
+                onChange={(e) => setCategoria(e.target.value)}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-orange-400 transition-all"
+              >
+                <option value="Acceso y Credenciales">Acceso y Credenciales</option>
+                <option value="Fallo en Carga de Tareas">Fallo en Carga de Tareas</option>
+                <option value="Error en Estado Financiero">Error en Estado Financiero</option>
+                <option value="Otros Problemas Técnicos">Otros Problemas Técnicos</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Asunto Breve:</label>
+              <input
+                type="text"
+                required
+                value={asunto}
+                onChange={(e) => setAsunto(e.target.value)}
+                placeholder="Ej. Problema al adjuntar examen de Griego..."
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-orange-400 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs text-slate-300 font-semibold">Detalle o Descripción del Incidente:</label>
+            <textarea
+              rows={4}
+              required
+              value={mensaje}
+              onChange={(e) => setMensaje(e.target.value)}
+              placeholder="Escribe los detalles de la incidencia..."
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white focus:outline-none focus:border-orange-400 transition-all"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md"
+          >
+            Enviar Ticket a Soporte 🚀
+          </button>
+
+          {ticketEnviado && (
+            <p className="text-xs text-emerald-400 font-semibold pt-1">
+              ✓ Ticket creado con éxito. Un agente del equipo técnico se comunicará contigo vía correo en breve.
+            </p>
+          )}
+        </form>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-orange-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
