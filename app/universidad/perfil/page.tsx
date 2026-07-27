@@ -129,3 +129,215 @@ export default function PerfilPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function PerfilPage() {
+  const [datosGuardados, setDatosGuardados] = useState(false);
+  const [seguridadGuardada, setSeguridadGuardada] = useState(false);
+
+  const [perfil, setPerfil] = useState({
+    nombre: 'Juan Pérez',
+    email: 'juan.perez@universidad.edu',
+    telefono: '+1 (809) 555-0199',
+    programa: 'Licenciatura en Teología & Exégesis',
+    matricula: 'UGR-2026-9041',
+  });
+
+  const [seguridad, setSeguridad] = useState({
+    passActual: '',
+    passNueva: '',
+    dosFactores: true,
+  });
+
+  const handleGuardarPerfil = (e: React.FormEvent) => {
+    e.preventDefault();
+    setDatosGuardados(true);
+    setTimeout(() => setDatosGuardados(false), 3000);
+  };
+
+  const handleGuardarSeguridad = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (seguridad.passActual && seguridad.passNueva) {
+      setSeguridadGuardada(true);
+      setSeguridad({ ...seguridad, passActual: '', passNueva: '' });
+      setTimeout(() => setSeguridadGuardada(false), 3000);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-sky-400 bg-sky-950/80 px-3 py-1 rounded-full border border-sky-800">
+          👤 Mi Cuenta
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Perfil & Configuración de Seguridad</h1>
+        <p className="text-slate-400 text-sm">
+          Gestiona tus datos personales, credenciales académicas y parámetros de privacidad de tu cuenta universitaria.
+        </p>
+      </header>
+
+      {/* Tarjeta de Credencial Digital */}
+      <section className="bg-gradient-to-br from-slate-800 to-slate-900 p-6 rounded-3xl border border-slate-700 space-y-4 shadow-xl">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex items-center gap-4">
+            <div className="w-16 h-16 rounded-2xl bg-sky-600/30 border border-sky-500/50 flex items-center justify-center text-2xl font-bold text-sky-400 font-mono">
+              JP
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-slate-100">{perfil.nombre}</h2>
+              <p className="text-xs text-sky-400 font-semibold">{perfil.programa}</p>
+              <p className="text-[11px] text-slate-400 font-mono mt-0.5">Matrícula: {perfil.matricula}</p>
+            </div>
+          </div>
+          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-800 font-bold">
+            ● Estudiante Activo
+          </span>
+        </div>
+      </section>
+
+      {/* Datos Personales */}
+      <section className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-sky-400">
+          📝 Información Personal & Contacto
+        </h2>
+
+        <form onSubmit={handleGuardarPerfil} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Nombre Completo:</label>
+              <input
+                type="text"
+                required
+                value={perfil.nombre}
+                onChange={(e) => setPerfil({ ...perfil, nombre: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-400 transition-all"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Correo Institucional:</label>
+              <input
+                type="email"
+                required
+                value={perfil.email}
+                onChange={(e) => setPerfil({ ...perfil, email: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-400 transition-all font-mono"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Teléfono de Contacto:</label>
+              <input
+                type="text"
+                required
+                value={perfil.telefono}
+                onChange={(e) => setPerfil({ ...perfil, telefono: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-400 transition-all font-mono"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Programa Académico:</label>
+              <input
+                type="text"
+                disabled
+                value={perfil.programa}
+                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-2.5 text-xs text-slate-400 cursor-not-allowed"
+              />
+            </div>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-sky-600 hover:bg-sky-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md"
+          >
+            Actualizar Datos 💾
+          </button>
+
+          {datosGuardados && (
+            <p className="text-xs text-emerald-400 font-semibold pt-1">
+              ✓ Información personal actualizada correctamente.
+            </p>
+          )}
+        </form>
+      </section>
+
+      {/* Seguridad & Credenciales */}
+      <section className="bg-slate-800/50 p-6 rounded-3xl border border-slate-800 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-sky-400">
+          🔒 Seguridad & Cambio de Contraseña
+        </h2>
+
+        <form onSubmit={handleGuardarSeguridad} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Contraseña Actual:</label>
+              <input
+                type="password"
+                required
+                value={seguridad.passActual}
+                onChange={(e) => setSeguridad({ ...seguridad, passActual: e.target.value })}
+                placeholder="••••••••"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-400 transition-all"
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Nueva Contraseña:</label>
+              <input
+                type="password"
+                required
+                value={seguridad.passNueva}
+                onChange={(e) => setSeguridad({ ...seguridad, passNueva: e.target.value })}
+                placeholder="••••••••"
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-sky-400 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center gap-3 pt-2">
+            <input
+              type="checkbox"
+              id="2fa"
+              checked={seguridad.dosFactores}
+              onChange={(e) => setSeguridad({ ...seguridad, dosFactores: e.target.checked })}
+              className="w-4 h-4 rounded border-slate-700 text-sky-600 focus:ring-sky-500 bg-slate-900"
+            />
+            <label htmlFor="2fa" className="text-xs text-slate-300 font-medium">
+              Activar Autenticación en Dos Pasos (2FA) para mayor seguridad
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            className="bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+          >
+            Guardar Parámetros de Seguridad
+          </button>
+
+          {seguridadGuardada && (
+            <p className="text-xs text-emerald-400 font-semibold pt-1">
+              ✓ Clave de acceso y opciones de seguridad actualizadas.
+            </p>
+          )}
+        </form>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-sky-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
