@@ -194,3 +194,142 @@ export default function AlumniPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function AlumniPage() {
+  const [categoria, setCategoria] = useState('Todas');
+
+  const publicacionesEgresados = [
+    {
+      id: 1,
+      titulo: 'Análisis Crítico de la Teología del Pacto en el Siglo XVII',
+      autor: 'Lic. Samuel E. Castillo (Promoción 2024)',
+      tipo: 'Artículo Científico / Exégesis',
+      fecha: 'Junio 2026',
+      badge: 'Publicación',
+      color: 'border-amber-500 text-amber-400 bg-amber-950/40'
+    },
+    {
+      id: 2,
+      titulo: 'Cátedra de Griego Básico para Comunidades Rurales',
+      autor: 'Pr. Josué Daniel Vega (Promoción 2025)',
+      tipo: 'Bolsa de Proyectos Ministeriales',
+      fecha: 'Julio 2026',
+      badge: 'Proyecto',
+      color: 'border-emerald-500 text-emerald-400 bg-emerald-950/40'
+    },
+    {
+      id: 3,
+      titulo: 'Coordinador de Formación Teológica Local',
+      autor: 'Seminario Bíblico Metropolitano',
+      tipo: 'Oportunidad / Vacante Docente',
+      fecha: 'Julio 2026',
+      badge: 'Vacante',
+      color: 'border-cyan-500 text-cyan-400 bg-cyan-950/40'
+    }
+  ];
+
+  const itemsFiltrados = publicacionesEgresados.filter(
+    (item) => categoria === 'Todas' || item.badge === categoria
+  );
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800">
+          🎓 Comunidad Alumni
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Red de Egresados & Bolsa Ministerial</h1>
+        <p className="text-slate-400 text-sm">
+          Espacio de vinculación profesional, publicaciones académicas y mentoría para los graduados de la Universidad de la Gracia.
+        </p>
+      </header>
+
+      {/* Tarjetas de Métricas de la Red */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Graduados Registrados</span>
+          <p className="text-2xl font-extrabold text-amber-400 font-mono">312</p>
+          <p className="text-[11px] text-slate-400">En 14 países</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Oportunidades Activas</span>
+          <p className="text-2xl font-extrabold text-cyan-400 font-mono">15</p>
+          <p className="text-[11px] text-cyan-300">Vacantes y proyectos</p>
+        </div>
+
+        <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
+          <span className="text-[10px] text-slate-400 uppercase font-bold">Publicaciones Alumni</span>
+          <p className="text-2xl font-extrabold text-emerald-400 font-mono">48</p>
+          <p className="text-[11px] text-slate-400">Artículos y monografías</p>
+        </div>
+      </div>
+
+      {/* Filtro por Categoría */}
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-slate-800/50 p-4 rounded-2xl border border-slate-800">
+        <label className="text-xs font-bold text-slate-300">Filtrar por Tipo de Contenido:</label>
+        <select
+          value={categoria}
+          onChange={(e) => setCategoria(e.target.value)}
+          className="bg-slate-900 border border-slate-700 rounded-xl px-4 py-2 text-xs text-white focus:outline-none focus:border-amber-400 transition-all"
+        >
+          <option value="Todas">Mostrar Todo</option>
+          <option value="Publicación">Publicaciones Académicas</option>
+          <option value="Proyecto">Proyectos Ministeriales</option>
+          <option value="Vacante">Oportunidades & Vacantes</option>
+        </select>
+      </div>
+
+      {/* Lista de Publicaciones / Vacantes */}
+      <section className="space-y-4">
+        <div className="space-y-3">
+          {itemsFiltrados.map((item) => (
+            <div
+              key={item.id}
+              className="bg-slate-800/80 p-6 rounded-3xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-slate-600 transition-all"
+            >
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${item.color}`}>
+                    {item.badge}
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">{item.fecha}</span>
+                </div>
+
+                <h3 className="text-base font-bold text-slate-100">{item.titulo}</h3>
+                <p className="text-xs text-slate-400">
+                  <strong className="text-slate-300">Fuente / Autor:</strong> {item.autor}
+                </p>
+                <p className="text-[11px] text-slate-500 font-mono">
+                  📌 {item.tipo}
+                </p>
+              </div>
+
+              <button
+                onClick={() => alert(`Accediendo al detalle de: ${item.titulo}`)}
+                className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md w-full sm:w-auto"
+              >
+                Ver Detalle →
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
