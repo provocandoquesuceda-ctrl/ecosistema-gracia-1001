@@ -249,3 +249,150 @@ export default function CalendarioPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function CalendarioPage() {
+  const [filtroCategoria, setFiltroCategoria] = useState('Todas');
+
+  const eventos = [
+    {
+      id: 'EV-2026-01',
+      titulo: 'Entrega Final: Monografía Exegética de Romanos 8',
+      materia: 'Sintaxis Griega II',
+      fecha: '02 de Agosto, 2026',
+      categoria: 'Entregas',
+      prioridad: 'Alta',
+      badgeColor: 'border-rose-500 text-rose-400 bg-rose-950/40',
+    },
+    {
+      id: 'EV-2026-02',
+      titulo: 'Examen Parcial II: Crítica Textual y Manuscritos',
+      materia: 'Crítica Textual',
+      fecha: '10 de Agosto, 2026',
+      categoria: 'Exámenes',
+      prioridad: 'Alta',
+      badgeColor: 'border-amber-500 text-amber-400 bg-amber-950/40',
+    },
+    {
+      id: 'EV-2026-03',
+      titulo: 'Simposio Internacional de Hermenéutica Bíblica',
+      materia: 'Extensión Universitaria',
+      fecha: '18 de Agosto, 2026',
+      categoria: 'Eventos & Webinars',
+      prioridad: 'Media',
+      badgeColor: 'border-cyan-500 text-cyan-400 bg-cyan-950/40',
+    },
+    {
+      id: 'EV-2026-04',
+      titulo: 'Cierre de Pago de Colegiatura Mensual',
+      materia: 'Administración',
+      fecha: '25 de Agosto, 2026',
+      categoria: 'Administrativo',
+      prioridad: 'Media',
+      badgeColor: 'border-emerald-500 text-emerald-400 bg-emerald-950/40',
+    },
+  ];
+
+  const eventosFiltrados = eventos.filter(
+    (ev) => filtroCategoria === 'Todas' || ev.categoria === filtroCategoria
+  );
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-amber-400 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-800">
+          📅 Agenda Institucional
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Calendario Académico</h1>
+        <p className="text-slate-400 text-sm">
+          Mantén el control de tus entregas de tareas, fechas de evaluaciones, conferencias y límites de pago del trimestre.
+        </p>
+      </header>
+
+      {/* Control de Filtros */}
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-slate-800/60 p-4 rounded-2xl border border-slate-800">
+        <span className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+          Filtrar Cronograma por:
+        </span>
+        <div className="flex flex-wrap gap-2">
+          {['Todas', 'Entregas', 'Exámenes', 'Eventos & Webinars', 'Administrativo'].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setFiltroCategoria(cat)}
+              className={`text-xs px-3 py-1.5 rounded-xl border transition-all ${
+                filtroCategoria === cat
+                  ? 'bg-amber-500 text-slate-950 border-amber-400 font-bold'
+                  : 'bg-slate-900 text-slate-300 border-slate-700 hover:border-slate-500'
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Listado de Eventos / Timeline */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          📌 Próximos Eventos y Fechas Clave
+        </h2>
+
+        <div className="space-y-3">
+          {eventosFiltrados.map((item) => (
+            <div
+              key={item.id}
+              className="bg-slate-800/80 p-5 rounded-3xl border border-slate-700/80 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 hover:border-slate-600 transition-all"
+            >
+              <div className="space-y-1.5">
+                <div className="flex items-center gap-2">
+                  <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${item.badgeColor}`}>
+                    {item.categoria}
+                  </span>
+                  <span className="text-xs font-mono text-slate-400">| Prioridad: {item.prioridad}</span>
+                </div>
+
+                <h3 className="text-base font-bold text-slate-100">{item.titulo}</h3>
+                <p className="text-xs text-slate-400">Asignatura: <span className="text-slate-200 font-semibold">{item.materia}</span></p>
+              </div>
+
+              <div className="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto border-t sm:border-t-0 border-slate-700/60 pt-3 sm:pt-0">
+                <span className="text-xs font-bold text-amber-400 font-mono bg-amber-950/60 px-3 py-1.5 rounded-xl border border-amber-800/60">
+                  🗓️ {item.fecha}
+                </span>
+                <span className="text-[10px] text-slate-500 font-mono mt-1">{item.id}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Sincronización de Calendario */}
+      <section className="bg-slate-800/50 p-6 rounded-3xl border border-slate-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div>
+          <h3 className="text-sm font-bold text-slate-200">Sincronizar con tu Calendario Personal</h3>
+          <p className="text-xs text-slate-400">Exporta todos los eventos a Google Calendar, Outlook o Apple Calendar en formato iCal.</p>
+        </div>
+        <button
+          onClick={() => alert('Descargando archivo .ics para sincronización de calendario...')}
+          className="bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md shrink-0"
+        >
+          Exportar iCal 📥
+        </button>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-amber-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
