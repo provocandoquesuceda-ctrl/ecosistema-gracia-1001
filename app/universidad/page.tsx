@@ -248,3 +248,191 @@ export default function TutorPage() {
     </main>
   );
 }
+'use client';
+
+import { useState } from 'react';
+import Link from 'next/link';
+
+export default function VidaEstudiantilPage() {
+  const [agendado, setAgendado] = useState(false);
+  const [cita, setCita] = useState({
+    capellan: 'Pr. Samuel Reyes (Capellán General)',
+    fecha: '',
+    motivo: '',
+  });
+
+  const gruposComunidad = [
+    {
+      id: 'GRP-01',
+      nombre: 'Círculo de Oración & Intercesión',
+      horario: 'Todos los Martes - 07:00 UTC',
+      lider: 'Min. David Castro',
+      modalidad: 'Virtual / Zoom',
+      integrantes: 45,
+      color: 'border-rose-500 text-rose-400 bg-rose-950/40',
+    },
+    {
+      id: 'GRP-02',
+      nombre: 'Taller de Lectura Patrística & Clásica',
+      horario: 'Jueves - 19:00 UTC',
+      lider: 'Dra. Elena Gómez',
+      modalidad: 'Híbrida',
+      integrantes: 28,
+      color: 'border-indigo-500 text-indigo-400 bg-indigo-950/40',
+    },
+    {
+      id: 'GRP-03',
+      nombre: 'Voluntariado & Alcance Social Urbano',
+      horario: 'Sábados (Semanales)',
+      lider: 'Pr. Lucas Morales',
+      modalidad: 'Presencial / Campo',
+      integrantes: 62,
+      color: 'border-amber-500 text-amber-400 bg-amber-950/40',
+    },
+  ];
+
+  const handleAgendar = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (cita.fecha && cita.motivo) {
+      setAgendado(true);
+      setTimeout(() => {
+        setAgendado(false);
+        setCita({ capellan: 'Pr. Samuel Reyes (Capellán General)', fecha: '', motivo: '' });
+      }, 4000);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white p-6 max-w-4xl mx-auto space-y-8">
+      {/* Header */}
+      <header className="border-b border-slate-800 pb-6 space-y-2">
+        <span className="text-xs font-semibold uppercase tracking-wider text-rose-400 bg-rose-950/80 px-3 py-1 rounded-full border border-rose-800">
+          🕊️ Capellanía & Comunidad
+        </span>
+        <h1 className="text-3xl font-bold mt-2">Vida Estudiantil & Cuidado Pastoral</h1>
+        <p className="text-slate-400 text-sm">
+          Fortalece tu vida espiritual y comunitaria. Participa en grupos de oración, solicita consejería pastoral o integrador a programas de voluntariado.
+        </p>
+      </header>
+
+      {/* Devocional del Día */}
+      <section className="bg-gradient-to-r from-slate-800 via-rose-950/30 to-slate-800 p-6 rounded-3xl border border-rose-500/30 space-y-3">
+        <div className="flex items-center justify-between">
+          <span className="text-[10px] font-mono text-rose-400 font-bold uppercase tracking-wider">
+            📖 Devocional Académico del Día
+          </span>
+          <span className="text-xs text-slate-400 font-mono">27 de Julio, 2026</span>
+        </div>
+        <h2 className="text-base font-bold text-slate-100">
+          "La renovación del entendimiento en la labor teológica"
+        </h2>
+        <p className="text-xs text-slate-300 italic leading-relaxed">
+          «No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento...» — Romanos 12:2
+        </p>
+      </section>
+
+      {/* Grupos de Comunidad */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+          👥 Grupos de Comunidad & Voluntariado
+        </h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {gruposComunidad.map((g) => (
+            <div
+              key={g.id}
+              className="bg-slate-800/80 p-5 rounded-3xl border border-slate-700/80 flex flex-col justify-between space-y-4 hover:border-slate-600 transition-all"
+            >
+              <div className="space-y-2">
+                <span className={`text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full border ${g.color}`}>
+                  {g.modalidad}
+                </span>
+                <h3 className="text-sm font-bold text-slate-100">{g.nombre}</h3>
+                <p className="text-xs text-slate-300 font-medium">Líder: {g.lider}</p>
+                <p className="text-[11px] text-slate-400 font-mono">🕒 {g.horario}</p>
+                <p className="text-[11px] text-slate-500 font-mono">👥 {g.integrantes} miembros activos</p>
+              </div>
+
+              <button
+                onClick={() => alert(`Te has unido exitosamente al grupo ${g.nombre}`)}
+                className="bg-slate-900 hover:bg-slate-700 text-rose-400 border border-rose-500/30 font-bold text-xs py-2 rounded-xl transition-all w-full text-center"
+              >
+                Unirme a la Comunidad
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* Solicitud de Consejería Pastoral */}
+      <section className="bg-slate-800 p-6 rounded-3xl border border-slate-700 space-y-4">
+        <h2 className="text-xs font-bold uppercase tracking-wider text-rose-400">
+          🤝 Solicitud de Consejería & Capellanía Confidencial
+        </h2>
+
+        <form onSubmit={handleAgendar} className="space-y-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Seleccionar Capellán / Consejero:</label>
+              <select
+                value={cita.capellan}
+                onChange={(e) => setCita({ ...cita, capellan: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-400 transition-all"
+              >
+                <option value="Pr. Samuel Reyes (Capellán General)">Pr. Samuel Reyes (Capellán General)</option>
+                <option value="Dra. Ruth Martínez (Consejería Estudiantil)">Dra. Ruth Martínez (Consejería Estudiantil)</option>
+                <option value="Min. Isaac Peña (Mentoría Vocacional)">Min. Isaac Peña (Mentoría Vocacional)</option>
+              </select>
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-xs text-slate-300 font-semibold">Fecha Deseada:</label>
+              <input
+                type="date"
+                required
+                value={cita.fecha}
+                onChange={(e) => setCita({ ...cita, fecha: e.target.value })}
+                className="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:outline-none focus:border-rose-400 transition-all"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs text-slate-300 font-semibold">Motivo o Área de Consejería (Confidencial):</label>
+            <textarea
+              rows={3}
+              required
+              value={cita.motivo}
+              onChange={(e) => setCita({ ...cita, motivo: e.target.value })}
+              placeholder="Describe brevemente tus inquietudes vocacionales, espirituales o personales..."
+              className="w-full bg-slate-900 border border-slate-700 rounded-xl p-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-400 transition-all"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs px-5 py-2.5 rounded-xl transition-all shadow-md"
+          >
+            Agendar Cita de Consejería 🗓️
+          </button>
+
+          {agendado && (
+            <p className="text-xs text-emerald-400 font-semibold pt-1">
+              ✓ Solicitud enviada confidencialmente. El equipo de capellanía se pondrá en contacto contigo para confirmar el horario.
+            </p>
+          )}
+        </form>
+      </section>
+
+      {/* Volver */}
+      <div className="pt-2">
+        <Link
+          href="/universidad"
+          className="inline-block bg-slate-800 hover:bg-slate-700 text-rose-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
+        >
+          ← Volver a la Universidad
+        </Link>
+      </div>
+    </main>
+  );
+}
