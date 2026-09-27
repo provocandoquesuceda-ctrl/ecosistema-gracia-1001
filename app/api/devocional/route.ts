@@ -6,6 +6,8 @@ const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+type BeneficioRelacionado = { concepto: string; cita: string; afirmacion: string; id: number; categoria: string; similarity?: number };
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -32,7 +34,7 @@ export async function POST(req: Request) {
     let contextoBaseDatos = '';
     if (beneficiosRelacionados && beneficiosRelacionados.length > 0) {
       contextoBaseDatos = beneficiosRelacionados
-        .map((b: any) => `- Beneficio: ${b.concepto} (${b.cita}): ${b.afirmacion}`)
+        .map((b: BeneficioRelacionado) => `- Beneficio: ${b.concepto} (${b.cita}): ${b.afirmacion}`)
         .join('\n');
     }
 
