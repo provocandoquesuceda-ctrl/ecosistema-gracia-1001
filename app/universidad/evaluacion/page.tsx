@@ -102,7 +102,7 @@ export default function EvaluacionPage() {
             Has obtenido <strong className="text-teal-400 font-bold">{puntuacion}</strong> de <strong className="text-teal-400 font-bold">{preguntas.length}</strong> aciertos.
           </p>
           <div className="bg-slate-900 p-4 rounded-xl border border-slate-700 text-xs text-slate-400 max-w-md mx-auto">
-            💡 "Porque por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios." — Efesios 2:8
+            💡 &quot;Porque por gracia sois salvos por medio de la fe; y esto no de vosotros, pues es don de Dios.&quot; — Efesios 2:8
           </div>
           <button
             onClick={reiniciar}
