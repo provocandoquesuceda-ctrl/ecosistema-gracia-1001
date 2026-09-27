@@ -13,10 +13,22 @@ export default function InscripcionPage() {
     interesPrincipal: 'exegesis'
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.nombre || !formData.email) return;
-    setCompletado(true);
+
+    try {
+      const res = await fetch('/api/inscripcion', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) throw new Error('No se pudo procesar la solicitud.');
+      setCompletado(true);
+    } catch (err) {
+      console.error('Error al inscribir:', err);
+    }
   };
 
   return (
@@ -127,23 +139,3 @@ export default function InscripcionPage() {
     </main>
   );
 }
-
-const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!formData.nombre || !formData.email) return;
-
-    try {
-      const res = await fetch('/api/inscripcion', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData)
-      });
-
-      if (res.ok) {
-        setCompletado(true);
-      }
-    } catch (err) {
-      console.error('Error al inscribir:', err);
-    }
-  };
-  
