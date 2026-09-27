@@ -131,7 +131,7 @@ export default function MentoriaPage() {
         </div>
 
         <p className="text-xs text-slate-300 leading-relaxed border-t border-slate-700/60 pt-3">
-          "Mi compromiso es acompañarte en tu crecimiento académico y espiritual, asegurándome de que ministres desde la plenitud de la gracia y no desde la carga del burnout."
+          &quot;Mi compromiso es acompañarte en tu crecimiento académico y espiritual, asegurándome de que ministres desde la plenitud de la gracia y no desde la carga del burnout.&quot;
         </p>
       </div>
 
