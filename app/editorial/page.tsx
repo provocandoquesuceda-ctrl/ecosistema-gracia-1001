@@ -105,7 +105,7 @@ export default function HubEditorialPage() {
                 </span>
                 <h3 className="font-bold text-white text-sm">{item.titulo}</h3>
                 <p className="text-xs text-slate-300 bg-slate-900 p-3 rounded-xl border border-slate-700/60 leading-relaxed italic">
-                  "{item.texto}"
+                  &quot;{item.texto}&quot;
                 </p>
               </div>
               <button
