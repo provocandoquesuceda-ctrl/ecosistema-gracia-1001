@@ -78,7 +78,7 @@ export default function ProgresoPage() {
       {/* Botón Volver */}
       <div className="pt-2">
         <Link
-          href="/universidad/dashboard"
+          href="/dashboard"
           className="inline-block bg-slate-800 hover:bg-slate-700 text-teal-400 border border-slate-700 font-bold text-xs px-5 py-2.5 rounded-xl transition-all"
         >
           ← Volver al Panel de Control
