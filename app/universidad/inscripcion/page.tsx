@@ -128,7 +128,7 @@ export default function InscripcionPage() {
           </p>
           <div className="pt-2">
             <Link
-              href="/universidad/dashboard"
+              href="/dashboard"
               className="inline-block bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs px-6 py-3 rounded-xl transition-all shadow-md"
             >
               Ir al Panel del Alumno
