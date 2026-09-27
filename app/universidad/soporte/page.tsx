@@ -460,7 +460,7 @@ export default function SoportePage() {
         <div className="space-y-2 text-xs text-slate-300">
           <details className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/80 cursor-pointer">
             <summary className="font-bold text-slate-200">¿Cómo restablezco mi contraseña de acceso?</summary>
-            <p className="mt-2 text-slate-400 text-[11px]">Puedes hacerlo directamente desde la pantalla de inicio de sesión haciendo clic en "¿Olvidaste tu contraseña?".</p>
+            <p className="mt-2 text-slate-400 text-[11px]">Puedes hacerlo directamente desde la pantalla de inicio de sesión haciendo clic en &quot;¿Olvidaste tu contraseña?&quot;.</p>
           </details>
 
           <details className="bg-slate-900/60 p-3 rounded-xl border border-slate-700/80 cursor-pointer">
