@@ -324,7 +324,7 @@ export default function VidaEstudiantilPage() {
           <span className="text-xs text-slate-400 font-mono">27 de Julio, 2026</span>
         </div>
         <h2 className="text-base font-bold text-slate-100">
-          "La renovación del entendimiento en la labor teológica"
+          &quot;La renovación del entendimiento en la labor teológica&quot;
         </h2>
         <p className="text-xs text-slate-300 italic leading-relaxed">
           «No os conforméis a este siglo, sino transformaos por medio de la renovación de vuestro entendimiento...» — Romanos 12:2
