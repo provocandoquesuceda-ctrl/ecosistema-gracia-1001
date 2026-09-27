@@ -52,7 +52,7 @@ export default function TesisPage() {
               Tema Registrado
             </span>
             <h2 className="text-lg font-bold text-slate-100">
-              "La Imputación de la Justicia de Cristo como Fundamento de la Paz Pastoral"
+              &quot;La Imputación de la Justicia de Cristo como Fundamento de la Paz Pastoral&quot;
             </h2>
           </div>
           <div className="text-left sm:text-right shrink-0">
