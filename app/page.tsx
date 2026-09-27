@@ -16,6 +16,7 @@ export default function UniversidadHubPage() {
   ];
 
   const accesosDirectos = [
+    { titulo: 'Banco Maestro Gracia 1001', desc: 'Beneficios, necesidades y búsqueda semántica', href: '/gracia', icono: '✨', color: 'border-amber-500/40 text-amber-300' },
     { titulo: 'Tutor Virtual IA', desc: 'Consultas exegeticas e investigación', href: '/universidad/ia-tutor', icono: '🤖', color: 'border-purple-500/40 text-purple-400' },
     { titulo: 'Finanzas & Pagos', desc: 'Estado de cuenta y colegiatura', href: '/universidad/finanzas', icono: '💳', color: 'border-emerald-500/40 text-emerald-400' },
     { titulo: 'Tablón de Anuncios', desc: 'Circulares y avisos oficiales', href: '/universidad/anuncios', icono: '📢', color: 'border-amber-500/40 text-amber-300' },
