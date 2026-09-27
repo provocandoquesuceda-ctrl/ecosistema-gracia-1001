@@ -69,8 +69,15 @@ export async function POST(req: Request) {
   }
 }
 
-export async function GET() {
+export async function POST_BOOTSTRAP(req: Request) {
   try {
+    const bootstrapToken = process.env.GRACIA_BOOTSTRAP_TOKEN;
+    const providedToken = req.headers.get('x-gracia-bootstrap');
+
+    if (!bootstrapToken || providedToken !== bootstrapToken) {
+      return NextResponse.json({ error: 'No autorizado.' }, { status: 401 });
+    }
+
     const { data: beneficio, error: beneficioError } = await supabase
       .from('beneficios_gracia')
       .select('id, codigo, titulo, concepto, descripcion, fundamento_biblico, aplicacion, declaracion, oracion, ensenanza, cita')
