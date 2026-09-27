@@ -61,7 +61,7 @@ export default function EnVivoPage() {
           {/* Información del Docente */}
           <div className="bg-slate-800/80 p-5 rounded-2xl border border-slate-700/80 space-y-1">
             <span className="text-[10px] text-amber-400 font-bold uppercase">Cátedra Principal</span>
-            <h3 className="font-bold text-sm text-slate-100">Dr. Aarón Ramos — "La Perspectiva Paulina de la Justificación"</h3>
+            <h3 className="font-bold text-sm text-slate-100">Dr. Aarón Ramos — &quot;La Perspectiva Paulina de la Justificación&quot;</h3>
             <p className="text-xs text-slate-400">Duración estimada: 60 minutos • Material adjunto en la Biblioteca.</p>
           </div>
         </div>
