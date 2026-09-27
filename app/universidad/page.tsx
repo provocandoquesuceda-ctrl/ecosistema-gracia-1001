@@ -22,7 +22,7 @@ export default function UniversidadPage() {
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           <Link
-            href="/universidad/dashboard"
+            href="/dashboard"
             className="bg-slate-900 hover:bg-slate-750 p-3.5 rounded-2xl border border-slate-700 hover:border-amber-500 text-amber-400 text-xs font-bold transition-all flex items-center gap-2"
           >
             <span>📊</span> Panel Alumno
@@ -57,7 +57,7 @@ export default function UniversidadPage() {
           </Link>
 
           <Link
-            href="/universidad/editorial"
+            href="/editorial"
             className="bg-slate-900 hover:bg-slate-750 p-3.5 rounded-2xl border border-slate-700 hover:border-pink-500 text-pink-400 text-xs font-bold transition-all flex items-center gap-2"
           >
             <span>✍️</span> Hub Editorial
