@@ -68,3 +68,64 @@ export async function POST(req: Request) {
     );
   }
 }
+
+export async function GET() {
+  try {
+    const { data: beneficio, error: beneficioError } = await supabase
+      .from('beneficios_gracia')
+      .select('id, codigo, titulo, concepto, descripcion, fundamento_biblico, aplicacion, declaracion, oracion, ensenanza, cita')
+      .eq('id', 624)
+      .single();
+
+    if (beneficioError) {
+      return NextResponse.json(
+        { error: 'No se pudo recuperar BENEFICIO-0624.', detalle: beneficioError.message },
+        { status: 500 }
+      );
+    }
+
+    const embeddingResponse = await openai.embeddings.create({
+      model: 'text-embedding-3-small',
+      input: [
+        beneficio.titulo,
+        beneficio.concepto,
+        beneficio.descripcion,
+        beneficio.fundamento_biblico,
+        beneficio.aplicacion,
+        beneficio.declaracion,
+        beneficio.oracion,
+        beneficio.ensenanza,
+        beneficio.cita,
+      ].filter(Boolean).join('\\n'),
+    });
+
+    const embedding = embeddingResponse.data[0].embedding;
+
+    const { data: guardado, error: guardadoError } = await supabase.rpc(
+      'guardar_embedding_beneficio_0624',
+      { p_embedding: embedding }
+    );
+
+    if (guardadoError) {
+      return NextResponse.json(
+        { error: 'OpenAI generó el embedding, pero Supabase no pudo persistirlo.', detalle: guardadoError.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      status: guardado ? 'embedded' : 'already_embedded',
+      beneficio: 'BENEFICIO-0624',
+      model: 'text-embedding-3-small',
+      dimensions: embedding.length,
+      persisted: Boolean(guardado),
+      usage: embeddingResponse.usage ?? null,
+    });
+  } catch (error) {
+    console.error('Error en generación controlada de embedding:', error);
+    return NextResponse.json(
+      { error: 'No se pudo completar la generación controlada del embedding.' },
+      { status: 500 }
+    );
+  }
+}
