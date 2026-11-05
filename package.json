@@ -7,18 +7,21 @@
     "seed": "node -r dotenv/config scripts/seed.js",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:rules": "npx --yes firebase-tools@15.35.0 emulators:exec --only firestore --project gracia-os-preview-rules-test \"node --test tests/firestore.rules.test.mjs\""
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.8",
     "dotenv": "^16.1.4",
+    "firebase": "13.2.0",
     "next": "16.2.12",
     "openai": "^6.49.0",
     "react": "19.2.4",
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@firebase/rules-unit-testing": "6.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
