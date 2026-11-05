@@ -2,13 +2,6 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -21,6 +14,17 @@ export async function POST(req: Request) {
     if (consulta.length > 1000) {
       return NextResponse.json({ error: 'La consulta excede el límite permitido.' }, { status: 400 });
     }
+
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    const openAiKey = process.env.OPENAI_API_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey || !openAiKey) {
+      return NextResponse.json({ error: 'La búsqueda semántica no está configurada en este entorno.' }, { status: 503 });
+    }
+
+    const openai = new OpenAI({ apiKey: openAiKey });
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     const embeddingResponse = await openai.embeddings.create({
       model: 'text-embedding-3-small',
