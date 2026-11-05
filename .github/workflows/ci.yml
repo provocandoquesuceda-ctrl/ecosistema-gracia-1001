@@ -2,9 +2,12 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/gracia-os-firebase-preview]
   pull_request:
     branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
   verify:
@@ -24,8 +27,17 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Setup Java for Firestore Emulator
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
       - name: Install
         run: npm ci
+
+      - name: Firestore rules tests
+        run: npm run test:rules
 
       - name: Lint
         run: npm run lint
