@@ -2,20 +2,23 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 type BeneficioRelacionado = { concepto: string; cita: string; afirmacion: string; id: number; categoria: string; similarity?: number };
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 export async function POST(req: Request) {
   try {
     const { mensaje, edad } = await req.json();
+    const openAiKey = process.env.OPENAI_API_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!openAiKey || !supabaseUrl || !supabaseAnonKey) {
+      return NextResponse.json({ error: 'El asistente no está configurado en este entorno.' }, { status: 503 });
+    }
+
+    const openai = new OpenAI({ apiKey: openAiKey });
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     // 1. Generar embedding con OpenAI a partir del mensaje del usuario
     const embeddingResponse = await openai.embeddings.create({
