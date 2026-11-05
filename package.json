@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:rules": "npx --yes firebase-tools@15.35.0 emulators:exec --only firestore --project gracia-os-preview-rules-test \"node --test tests/firestore.rules.test.mjs\""
+    "test:rules": "npx --yes firebase-tools@15.35.0 emulators:exec --only auth,firestore --project gracia-os-preview-rules-test \"node --test tests/firestore.rules.test.mjs && node --test tests/firebase-auth.test.mjs\""
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
