@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import GraciaAuthProgress from './auth-progress';
 
 type Beneficio = {
   codigo: string;
@@ -79,6 +80,8 @@ export default function GraciaPage() {
             Busca por necesidad, tema o pregunta. La experiencia consulta el Banco Maestro y recupera beneficios mediante búsqueda semántica.
           </p>
         </header>
+
+        <GraciaAuthProgress benefitCode="BENEFICIO-0624" />
 
         <form onSubmit={buscar} className="rounded-3xl border border-slate-800 bg-slate-900 p-4">
           <div className="flex flex-col gap-3 sm:flex-row">
