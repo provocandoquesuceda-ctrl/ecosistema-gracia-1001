@@ -2,13 +2,6 @@ import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 import { createClient } from '@supabase/supabase-js';
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
-
 export async function POST(req: Request) {
   try {
     const bootstrapToken = process.env.GRACIA_BOOTSTRAP_TOKEN;
@@ -17,6 +10,17 @@ export async function POST(req: Request) {
     if (!bootstrapToken || providedToken !== bootstrapToken) {
       return NextResponse.json({ error: 'No autorizado.' }, { status: 401 });
     }
+
+    const openAiKey = process.env.OPENAI_API_KEY;
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+    if (!openAiKey || !supabaseUrl || !supabaseAnonKey) {
+      return NextResponse.json({ error: 'El servicio de bootstrap no está configurado en este entorno.' }, { status: 503 });
+    }
+
+    const openai = new OpenAI({ apiKey: openAiKey });
+    const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
     const { data: beneficio, error: beneficioError } = await supabase
       .from('beneficios_gracia')
