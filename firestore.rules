@@ -1,0 +1,68 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedInAs(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function validProfile(uid) {
+      return request.resource.data.keys().hasOnly([
+        'uid', 'email', 'displayName', 'createdAt', 'updatedAt', 'schemaVersion'
+      ])
+      && request.resource.data.keys().hasAll([
+        'uid', 'email', 'displayName', 'createdAt', 'updatedAt', 'schemaVersion'
+      ])
+      && request.resource.data.uid == uid
+      && request.resource.data.email is string
+      && request.resource.data.email.size() <= 254
+      && (request.resource.data.displayName == null
+          || (request.resource.data.displayName is string
+              && request.resource.data.displayName.size() <= 80))
+      && request.resource.data.createdAt is timestamp
+      && request.resource.data.updatedAt is timestamp
+      && request.resource.data.schemaVersion == 1;
+    }
+
+    function validProgress(uid, benefitCode) {
+      return request.resource.data.keys().hasOnly([
+        'benefitCode', 'status', 'completedAt', 'lastViewedAt', 'notes', 'schemaVersion'
+      ])
+      && request.resource.data.keys().hasAll([
+        'benefitCode', 'status', 'completedAt', 'lastViewedAt', 'notes', 'schemaVersion'
+      ])
+      && request.resource.data.benefitCode == benefitCode
+      && request.resource.data.status in ['started', 'completed']
+      && (request.resource.data.completedAt == null
+          || request.resource.data.completedAt is timestamp)
+      && request.resource.data.lastViewedAt is timestamp
+      && (request.resource.data.notes == null
+          || (request.resource.data.notes is string
+              && request.resource.data.notes.size() <= 500))
+      && request.resource.data.schemaVersion == 1;
+    }
+
+    match /users/{uid} {
+      allow read: if signedInAs(uid);
+      allow create: if signedInAs(uid) && validProfile(uid);
+      allow update: if signedInAs(uid)
+        && validProfile(uid)
+        && request.resource.data.uid == resource.data.uid
+        && request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if false;
+
+      match /progress/{benefitCode} {
+        allow read: if signedInAs(uid);
+        allow create: if signedInAs(uid) && validProgress(uid, benefitCode);
+        allow update: if signedInAs(uid)
+          && validProgress(uid, benefitCode)
+          && request.resource.data.benefitCode == resource.data.benefitCode;
+        allow delete: if signedInAs(uid);
+      }
+    }
+
+    // Everything not explicitly allowed above is denied.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
